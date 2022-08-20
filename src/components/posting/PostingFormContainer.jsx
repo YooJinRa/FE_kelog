@@ -90,7 +90,7 @@ const PostingFormContainer = () => {
 
   return (
   <StPostingFormContainer>
-    <div>
+    <form>
       <h3>포스트 올리기</h3>
       <PostImage 
         setCompressedImageFile={setCompressedImageFile}
