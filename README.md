@@ -45,3 +45,6 @@
 --subBorder-style: 1px solid #DEE2E6;
 ```
 
+#### Packages
+- 아이콘 적용 : yarn add react-icons
+- 이미지 리사이징 : yarn add browser-image-compression
