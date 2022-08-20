@@ -1,11 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostContent = () => {
+const PostContent = ({ postInputs, setPostInputs }) => {
+
+  // ::: 컨텐츠 입력값 저장
+  const onChangePostContents = (event) => {
+    const { value, name } = event.target;
+    setPostInputs({
+      ...postInputs,
+      [name]: value
+    });
+  }
+
   return (
     <StPostContentWrap>
-      <input placeholder='게시글의 제목을 입력해주세요.' />
-      <textarea placeholder='게시글의 내용을 소개해주세요.'></textarea>
+      <input 
+        name='title' 
+        value ={postInputs.title} 
+        onChange={onChangePostContents}
+        placeholder='게시글의 제목을 입력해주세요.' 
+      />
+      <textarea 
+        name='content'
+        value={postInputs.content}
+        onChange={onChangePostContents}
+        placeholder='게시글의 내용을 소개해주세요.'
+      >
+      </textarea>
     </StPostContentWrap>
   );
 };

@@ -69,7 +69,6 @@ const StPostImageWrap = styled.div`
   box-shadow: var(--shadow-style);
   text-align: center;
   overflow: hidden;
-  border: 1px solid red;
 
   label {
     border-radius: 4px;
