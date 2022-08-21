@@ -40,8 +40,8 @@ const PostingFormContainer = () => {
       console.log("유효성 검사 통과 ::: 서버로 데이터 전송!");
 
       // :: 서버 주소
-      const URI = {
-        BASE: process.env.REACT_APP_BASE_URI,
+      const URL = {
+        BASE: process.env.REACT_APP_BASE_URL,
       };
 
       // :: image file formData 형식 변환
@@ -60,7 +60,7 @@ const PostingFormContainer = () => {
 
       try {
         const postContentsResponse = await axios.post(
-          `${URI.BASE}api/post`,
+          `${URL.BASE}api/post`,
           form,
           {
             headers: {
