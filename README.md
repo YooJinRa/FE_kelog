@@ -18,8 +18,9 @@
 
 ### Why
 
+----
 
-#### 주요 구현 기능
+### 주요 기능 구현
 - Infinite Scroll
 - Login/SignUp
 - Post CRUD
@@ -30,6 +31,20 @@
 - Dark&Light Mode
 - Shared Url
 
+### 주요 기능 설명
+#### 1. Image Resizing
+- `browser-image-compression` 패키지 사용한 이미지 용량 압축
+  * 2021년 8월 패키지가 나온 이후로 (약 주 48,000회) 2022년 8월 현재(약 주 75,000회) : 사용량 계속적인 증가
+  * 자바스크립트 기반으로 된 이미지 압축 라이브러리
+  * 문서 간결, API 사용법 직관적
+  * 계속적인 버전 릴리즈 업데이트
+- 이미지 사이즈 줄임으로서 서버 부담 최소화 목적
+- 네트워크 비용 효율화
+- 데이터 로딩 속도 고려
+- 실제 이미지 사이즈 줄인 사례
+<img src="https://github.com/YooJinRa/FE_kelog/tree/posting/document/imageResizing.png" width="800" />
+
+----
 
 ### 기본 세팅
 #### Style

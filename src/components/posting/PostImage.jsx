@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import imageCompression from "browser-image-compression";
 import styled from 'styled-components';
 import { AiOutlinePicture } from 'react-icons/ai';
 
-const PostImage = ({setCompressedImageFile}) => {
+const PostImage = ({ setCompressedImageFile }) => {
   const [ selectedPostImage, setSelectedPostImage ] = useState(null);
-
 
   // ::: 이미지 리사이징(Resizing)
   const compressImageAndGetImageFile = async(postImageFile) => {
@@ -15,7 +14,6 @@ const PostImage = ({setCompressedImageFile}) => {
       useWebWorker: true,
     };
     const compressedFile = await imageCompression(postImageFile, options);
-
     return compressedFile;
   }
 

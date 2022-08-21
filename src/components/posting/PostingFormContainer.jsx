@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import PostImage from './PostImage';
 import PostContent from './PostContent';
 import PostTag from './PostTag';
@@ -16,21 +17,63 @@ const PostingFormContainer = () => {
   console.log("___PostingForm_contentState ====> ", postInputs.title, postInputs.content);
   console.log("___PostingForm_tagState ====> ", tagList);
 
-  const onClickAddPost = (event) => {
+  const onClickAddPost = async(event) => {
     event.preventDefault();
     console.log("게시글을 업로드 해봅시다!");
     if(
       postInputs.title === '' ||
       postInputs.content === '' ||
-      compressedImageFile === null
-      // tag도 넣어야함
+      compressedImageFile === null ||
+      tagList.length === 0
     ) {
       postInputs.title === '' && console.log("title을 입력해주어야 함");
       postInputs.content === '' && console.log("content를 입력해주어야 함");
       compressedImageFile === null && console.log("이미지를 입력해주어야 함");
+      tagList.length === 0 && console.log("태그를 입력해주어야 함");
     } else {
       console.log("유효성 검사 통과 ::: 서버로 데이터 전송!");
 
+      // :: 서버 주소
+      const URI = {
+        BASE: process.env.REACT_APP_BASE_URI,
+      };
+
+      // :: image file formData 형식 변환
+      const form = new FormData();
+      form.append("file", compressedImageFile);
+      
+      // :: info contents blob 형식 변환
+      const contents = {
+        "title": postInputs.title,
+        "content": postInputs.content,
+        "tags": tagList,
+      }
+      const json = JSON.stringify(contents);
+      const blob = new Blob([json], {type: "application/json"});
+      form.append("info", blob);
+
+      try {
+        const postContentsResponse = await axios.post(
+          `${URI.BASE}api/post`,
+          form,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTA2NTU2M30.WD1dQUYX57gRN7c3aF6WTxZtcaDLoQ4NAjyKDjPQBqE"
+            },
+          }
+        );
+      } catch(error) {
+        console.log(error);
+      }
+
+      // ::: 초기화
+      setCompressedImageFile(null);
+      setTagList([]);
+      setPostInputs({
+        title: '',
+        content: '',
+      });
     }
   }
 

@@ -11,7 +11,6 @@ const PostContent = ({ postInputs, setPostInputs }) => {
       [name]: value
     });
   }
-
   return (
     <StPostContentWrap>
       <input 
