@@ -43,7 +43,7 @@
 - 네트워크 비용 효율화
 - 데이터 로딩 속도 고려
 - 실제 이미지 사이즈 줄인 사례
-<img src="https://github.com/YooJinRa/FE_kelog/tree/posting/document/imageResizing.png" width="800" />
+<img src="https://github.com/YooJinRa/FE_kelog/blob/posting/document/imageResizing.png" width="800" />
 
 ----
 
