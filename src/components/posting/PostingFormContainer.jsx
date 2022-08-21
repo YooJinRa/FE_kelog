@@ -82,6 +82,8 @@ const PostingFormContainer = () => {
       });
 
       goingBack();
+
+      goingBack();
     }
   }
 
