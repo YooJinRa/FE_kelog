@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PostImage from './PostImage';
 import PostContent from './PostContent';
@@ -6,6 +7,11 @@ import PostTag from './PostTag';
 import styled from 'styled-components';
 
 const PostingFormContainer = () => {
+  // ::: 뒤로가기
+  const navigate = useNavigate();
+  const goingBack = () => {
+    navigate(-1);
+  }
   // ::: 이미지 업로드 상태관리
   const [ compressedImageFile, setCompressedImageFile] = useState(null);
   const [ postInputs, setPostInputs ] = useState({
@@ -74,8 +80,13 @@ const PostingFormContainer = () => {
         title: '',
         content: '',
       });
+
+      goingBack();
     }
   }
+
+ 
+
 
   return (
   <StPostingFormContainer>
@@ -93,7 +104,12 @@ const PostingFormContainer = () => {
         setTagList={setTagList}
       />
       <StPostingButtonRow>
-        <button className="buttonWhite">취소</button>
+        <button 
+          className="buttonWhite"
+          onClick={goingBack}
+        >
+          취소
+        </button>
         <button 
           className="buttonPoint"
           onClick={onClickAddPost}

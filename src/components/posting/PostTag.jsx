@@ -4,13 +4,21 @@ import styled from 'styled-components';
 const PostTag = ({ tagList, setTagList }) => {
   const [ tagInputs, setTagInputs ] = useState('');
 
-
   const onChangePostTag = (event) => {
+    // :: 중복 테그 있는지 체크!!!!!
+    tagList.map((tag) => {
+      tag === event.target.value && 
+        console.log("같은 태그를 쓰시면 안돼요!");
+        // keypressEvent 막기
+        // event.target.removeEventListener('keypress', onKeyDownPostTag);
+    });
     setTagInputs(event.target.value);
   }
+
+  // :: 태그 입력
   const onKeyDownPostTag = (event) => {
     if(event.key === 'Enter') {
-      console.log("enter~~~~");
+      
       setTagList(
         [
         ...tagList,
@@ -21,18 +29,12 @@ const PostTag = ({ tagList, setTagList }) => {
     }
   }
 
+  // :: 태그 클릭시 지우기
   const onRemovePostTag = (event) => {
-    console.log("이거 지우고 싶어~!", event.target.id);
-    console.log(tagList.indexOf(event.target.id));
-    //tagList.splice(tagList.indexOf(event.target.id), 1);
-    //const removeTagList = tagList.splice(tagList.indexOf(event.target.id), 1);
-    //setTagList();
-    //setTagList(tagList.slice(tagList.indexOf(event.target.id), tagList.indexOf(event.target.id)+1));
-
-    //console.log("없어졌나", tagList);
+    const removeTagList = tagList.splice(tagList.indexOf(event.target.id), 1);
+    setTagList(tagList.filter((tag)=>(tag !== removeTagList)));
   }
 
-  // console.log("tagList", tagList);
   return (
     <StPostTagWrap>
       <input 
@@ -90,5 +92,7 @@ const StPostTagRow = styled.div`
     background-color: var(--bg-color);
     padding: 0 1rem;
     margin-right: 1rem;
+    cursor: pointer;
+    transition: 0.5ms;
   }
 `;
