@@ -4,6 +4,7 @@ import user from './modules/userSlice';
 import post from './modules/mainPostSlice';
 import commentSlice from "./modules/commentSlice";
 import postSlice from "./modules/postSlice";
+import commentSlice from "./modules/commentSlice";
 
 const middlewares = [thunk];
 
