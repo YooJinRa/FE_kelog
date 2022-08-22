@@ -1,8 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+// import GlobalHeaders from './components/global/GlobalHeaders';
+import MainTrendingPage from './page/MainTrendingPage';
+
+// import Carousel from './components/register/Carousel';
 
 function App() {
-  return <div className='App'></div>;
+  return <MainTrendingPage />;
 }
 
 export default App;
