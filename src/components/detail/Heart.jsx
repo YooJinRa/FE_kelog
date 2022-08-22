@@ -28,8 +28,8 @@ const Heart = ({postDetail}) => {
   }
   const onClickHeart = async() => {
     // 게시글 불러올때 해당유저가 해당게시글에 하트를 눌렀는지 안눌렀는지 확인
-
-    const heartResponse = await axios.post(`${URL.BASE}api/${postDetail.id}/postheart`,{},{
+    
+    const heartResponse = await axios.post(`${URL.BASE}api/${postDetail.id}/postheart`, {}, {
       headers: {
         Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTE3NzE4NX0.Z8FvKFZ1HoeNG2CUixd4nkLd4Dml4JniUYaOWr-ZM-A"
       }

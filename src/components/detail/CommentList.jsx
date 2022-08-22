@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { __getCommentAllByPostId } from '../../redux/modules/commentSlice';
+import { __getCommentAllByPostId, __deleteCommentByCommentId } from '../../redux/modules/commentSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const CommentList = () => {
+const CommentList = ({ setCommentCount }) => {
   const dispatch = useDispatch();
   const commentsList = useSelector(state => state.commentSlice.comment);
   const postId = useParams().postId;
@@ -12,29 +12,44 @@ const CommentList = () => {
   console.log("postId======>", postId);
 
   useEffect(() => {
-    dispatch(__getCommentAllByPostId(Number(postId)));
+    dispatch(__getCommentAllByPostId(postId));
   }, [dispatch]);
+
+  // :: 댓글 수 부모 컨포넌트 전달!
+  useEffect(() => {
+    setCommentCount(commentsList.commentcount);
+  }, []);
+
+  // :: 댓글 삭제
+  const onClickDeleteComment = (commentId) => {
+    dispatch(__deleteCommentByCommentId(commentId));
+  }
   
 
   console.log(commentsList);
   
   return (
     <StCommentListWrap>
-      <StCommentBox>
-        <div className='rowComment'>
-          <div className='commentInfo'>
-            <div className='commentProfileImage'>
-              이미지 사진!!
+      {commentsList.map((comment) => (
+        <StCommentBox>
+          <div className='rowComment'>
+            <div className='commentInfo'>
+              <div className='commentProfileImage'>
+                이미지 사진!!
+              </div>
+              <dl>
+                <dt>{comment.username}</dt>
+                <dd>{comment.createdAt}</dd>
+              </dl>
             </div>
-            <dl>
-              <dt>아이디</dt>
-              <dd>날짜</dd>
-            </dl>
+            <p>
+              <span>수정</span>
+              <span onClick={() => onClickDeleteComment(comment.commentId)}>삭제</span>
+            </p>
           </div>
-          <p><span>수정</span> <span>삭제</span></p>
-        </div>
-        <p>All problems were resolved very efficiently. </p>
-      </StCommentBox>
+          <p>{comment.comment}</p>
+        </StCommentBox>
+      ))}
     </StCommentListWrap>
   );
 };

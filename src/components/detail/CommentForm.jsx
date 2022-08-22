@@ -22,7 +22,7 @@ const CommentForm = () => {
         comment: commentTextArea,
       }, {
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MSIsImV4cCI6MTY2MTE4OTczMH0.ne_SMmn6KF2Ec7T1AI5xoUDopvvD3buSavkmGIYP6WM"
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MSIsImV4cCI6MTY2MTE5MTM2OH0.R0oATGNrxDv4SNheXNbJN5Mz7MRR0wVPaxiM1gItUJU"
         }
       });
       console.log(response.data);

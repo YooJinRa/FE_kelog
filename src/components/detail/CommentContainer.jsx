@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import styled from 'styled-components';
 
 const CommentContainer = () => {
+  const [ commentCount, setCommentCount ] = useState(0);
 
   return (
     <StCommentContainer>
-      <h3>00개의 댓글</h3>
+      <h3>{commentCount}개의 댓글</h3>
       <CommentForm />
-      <CommentList />
+      <CommentList setCommentCount={setCommentCount} />
     </StCommentContainer>
   );
 };
