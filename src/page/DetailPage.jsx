@@ -16,7 +16,7 @@ const DetailPage = () => {
   
   useEffect(() => {
     dispatch(__getPostDetail(postId));
-  }, [dispatch]);
+  }, [dispatch, postId]);
 
   console.log(postId);
   console.log("========>", postDetail);
@@ -25,7 +25,7 @@ const DetailPage = () => {
       {/* user id header에 보내야함 */}
       <GlobalHeader />
       <GlobalLayout>
-        <DetailContainer postDetail={postDetail} tags={postDetail.tags} />
+        <DetailContainer postDetail={postDetail} />
         <CommentContainer />
       </GlobalLayout>
     </StDetailPageWrap>
@@ -35,5 +35,5 @@ const DetailPage = () => {
 export default DetailPage;
 
 const StDetailPageWrap = styled.div`
-  background-color: pink;
+  background-color: var(--subBg-color);
 `;

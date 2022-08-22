@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     --title-color: #212529;
     --text-color: #495057;
     --subText-color: #868E96;
+    --subGray-color: #adb5bd;
     --border-style: 1px solid #F1F3F5;
     --subBorder-style: 1px solid #DEE2E6;
     --shadow-style: rgb(0 0 0 / 3%) 0px 0px 4px 0px;
