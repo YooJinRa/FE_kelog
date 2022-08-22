@@ -21,11 +21,13 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     line-height: 1.5;
     font-size: 0.875rem;
-    color: var(--text-color);
     margin: 0; 
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+  }
+  div, ul li, ol li, p, span, strong, input, textarea {
+    color: var(--text-color);
   }
   // :: 배경색 설정
   body {
@@ -65,6 +67,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: var(--primary-color);
     color: var(--subBg-color);
   }
+
 `;
 
 export default GlobalStyle;

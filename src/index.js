@@ -4,15 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// :: 전역 저장공간 적용
+import store from "./redux/store";
+import { Provider } from "react-redux";
+
 // :: 전역스타일 적용
 import GlobalStyle from './assets/GlobalStyle'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <GlobalStyle />
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
 
