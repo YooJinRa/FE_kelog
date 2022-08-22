@@ -50,7 +50,6 @@ const Heart = ({postDetail}) => {
         <FaHeart size="24" />
       </StHeartIcon>
       <div className='heartCount'>
-        {/* {postDetail.heartCount === null ? 0 : postDetail.heartCount} */}
         {clickHeartOn === true ? Number(postDetail.heartCount)+1: Number(postDetail.heartCount)-1}
       </div>
       <div 

@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { __getCommentAllByPostId } from '../../redux/modules/commentSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const CommentList = () => {
+  const dispatch = useDispatch();
+  const commentsList = useSelector(state => state.commentSlice.comment);
+  const postId = useParams().postId;
+  
+  console.log("postId======>", postId);
+
+  useEffect(() => {
+    dispatch(__getCommentAllByPostId(Number(postId)));
+  }, [dispatch]);
+  
+
+  console.log(commentsList);
+  
   return (
     <StCommentListWrap>
       <StCommentBox>

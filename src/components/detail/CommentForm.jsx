@@ -1,13 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const CommentForm = () => {
+  const postId = useParams().postId;
+  console.log("commentForm_postId =====>", postId);
+  const [commentTextArea, setCommentTextArea] = useState('');
+
+  const URL = {
+    BASE: process.env.REACT_APP_BASE_URL,
+  };
+  const onChangeCommentMessage = (event) => {
+    setCommentTextArea(event.target.value);
+  }
+
+  const onClickAddComment = async () => {
+    // :: 댓글 등록
+    try {
+      const response = await axios.post(`${URL.BASE}api/comment/${postId}`, {
+        comment: commentTextArea,
+      }, {
+        headers: {
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MSIsImV4cCI6MTY2MTE4OTczMH0.ne_SMmn6KF2Ec7T1AI5xoUDopvvD3buSavkmGIYP6WM"
+        }
+      });
+      console.log(response.data);
+      return response.data;
+    } catch(error) {
+      console.log(error);
+    }
+    
+  }
+
   return (
     <StCommentFormWrap>
-      <textarea placeholder='댓글을 작성하세요.'>
+      <textarea 
+        placeholder='댓글을 작성하세요.'
+        onChange={onChangeCommentMessage}
+      >
       </textarea>
       <div className='commentAddButtonWrap'>
-        <button className='buttonPoint'>댓글 작성</button>
+        <button 
+          className='buttonPoint'
+          onClick={onClickAddComment}
+        >
+          댓글 작성
+        </button>
       </div>
     </StCommentFormWrap>
   );
