@@ -7,9 +7,9 @@ import { getData } from '../../redux/modules/mainPostSlice';
 const MainContainer = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getData());
-  });
+  // useEffect(() => {
+  //   dispatch(getData());
+  // },[]);
 
   return (
     <Stwrapper>

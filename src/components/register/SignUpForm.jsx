@@ -52,9 +52,10 @@ const SignUpForm = (props) => {
 
     const body = {
       username: data.username,
-      userId: data.userId,
+      account: data.userId,
       password: data.password,
-      introduction: data.introduction,
+      passwordConfirm: data.password,
+      usercomment: data.introduction,
     };
 
     const json = JSON.stringify(body);
@@ -63,7 +64,7 @@ const SignUpForm = (props) => {
 
     try {
       const postRegisterResponse = await axios.post(
-        `${URL.BASE}api/post`,
+        `http://3.213.218.180:8080/api/register`,
         form,
         {
           headers: {
@@ -83,10 +84,17 @@ const SignUpForm = (props) => {
     console.log(error);
   };
 
+  const [id, setId] = useState('');
+
+  const onChange = (event) => {
+    setId(event.target.value);
+  };
+
   const onDuplicate = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatch(existMemberId());
+    console.log('dataId', event.target.value);
+    dispatch(existMemberId({ account: id }));
   };
 
   return (
@@ -127,6 +135,9 @@ const SignUpForm = (props) => {
               !isDirty ? undefined : errors.userId ? 'true' : 'false'
             }
             name='userId'
+            value={id}
+            onChange={onChange}
+            // 중복이면 true 중복이 아니면 false
           />
           <button onClick={onDuplicate}>아이디 중복 체크</button>
           {errors.userId && <p>{errors?.userId?.message}</p>}
@@ -186,7 +197,7 @@ const SignUpForm = (props) => {
           {errors.introduction && (
             <small role='alert'>{errors.introduction.message}</small>
           )}
-          <button type='submit' className='submit-btn'>
+          <button type='submit' className='submit-btn' onClick={onSubmit}>
             회원가입
           </button>
           <button type='submit' className='submit-btn' onClick={sendData}>

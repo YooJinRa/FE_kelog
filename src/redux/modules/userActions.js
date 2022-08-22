@@ -6,6 +6,7 @@ const Api = 'http://43.200.179.217:8080';
 export const userLogin = createAsyncThunk(
   'user/login',
   async (payload, { getState, rejectWithValue }) => {
+    console.log(payload);
     const { user } = getState();
     try {
       const config = {
@@ -16,12 +17,11 @@ export const userLogin = createAsyncThunk(
       };
 
       const response = await axios.post(
-        `${Api}/api/member/login`,
+        `http://3.213.218.180:8080/api/login`,
         payload,
         config
       );
       localStorage.setItem('access-token', response.headers.authorization);
-      localStorage.setItem('refresh-token', response.headers.refreshtoken);
       console.log(response);
       return response;
     } catch (error) {
@@ -44,7 +44,11 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       };
-      await axios.post(`${Api}/api/member/signup`, payload, config);
+      await axios.post(
+        `http://3.213.218.180:8080/api/register`,
+        payload,
+        config
+      );
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -83,7 +87,8 @@ export const logoutUser = createAsyncThunk(
 
 export const existMemberId = createAsyncThunk(
   'user/existMemberId',
-  async ({ email }, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
+    console.log(payload);
     try {
       const config = {
         headers: {
@@ -91,8 +96,8 @@ export const existMemberId = createAsyncThunk(
         },
       };
       const response = await axios.post(
-        'http://43.200.179.217:8080/api/member/exist/memberId',
-        { email },
+        'http://3.213.218.180:8080/api/idcheck',
+        payload,
         config
       );
       console.log(response);

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import SelectBoxContainer from './SelectBoxContainer';
 
 const MainFilter = () => {
   return (
@@ -37,8 +38,8 @@ const MainFilter = () => {
           <div className='underline'></div>
         </div>
         <div className='today'>
-          오늘
-          <svg
+          {/* 오늘 */}
+          {/* <svg
             stroke='currentColor'
             fill='currentColor'
             strokeWidth='0'
@@ -48,7 +49,8 @@ const MainFilter = () => {
             xmlns='http://www.w3.org/2000/svg'
           >
             <path d='M7 10l5 5 5-5z'></path>
-          </svg>
+          </svg> */}
+          <SelectBoxContainer />
         </div>
       </div>
     </Stwrapper>

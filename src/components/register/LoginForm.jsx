@@ -20,19 +20,28 @@ const LoginForm = (props) => {
   const dispatch = useDispatch();
 
   const sendData = (event) => {
-    event.stopPropagation();
     event.preventDefault();
     props.changeState();
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [data, setData] = useState({
+    account: '',
+    password: '',
+  });
 
+  const onChange = (event) => {
+    const { name, value } = event.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const onSubmit = () => {
     const body = {
-      userId: data.userId,
+      account: data.account,
       password: data.password,
     };
-
     dispatch(userLogin(body));
   };
 
@@ -52,17 +61,15 @@ const LoginForm = (props) => {
             type='text'
             tabIndex='2'
             placeholder='아이디를 입력하세요.'
-            {...register('userId', {
+            {...register('account', {
               required: '아이디는 필수값입니다.',
-              pattern: {
-                value: /^[a-z]+[a-z0-9]{5,19}$/g,
-                message: '영문자로 시작하는 영문자 또는 숫자 6~20자 ',
-              },
             })}
             aria-invalid={
               !isDirty ? undefined : errors.userId ? 'true' : 'false'
             }
-            name='userId'
+            name='account'
+            onChange={onChange}
+            value={data.account}
           />
           {/* {errors.userId && <p>{errors?.userId?.message}</p>} */}
           <h1>비밀번호</h1>
@@ -71,16 +78,14 @@ const LoginForm = (props) => {
             placeholder='비밀번호를 입력하세요.'
             {...register('password', {
               required: '비밀번호는 필수값입니다.',
-              pattern: {
-                value: /^[a-zA-Z]*$/,
-                message: '비밀번호는 영어만 가능합니다.',
-              },
             })}
             type='password'
             aria-invalid={
               !isDirty ? undefined : errors.password ? 'true' : 'false'
             }
             name='password'
+            onChange={onChange}
+            value={data.password}
           />
           {/* {errors.password && (
             <small role='alert'>{errors.password.message}</small>

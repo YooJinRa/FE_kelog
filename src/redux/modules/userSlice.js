@@ -7,15 +7,10 @@ const userToken = localStorage.getItem('access-token')
   ? localStorage.getItem('access-token')
   : null;
 
-const refreshToken = localStorage.getItem('refresh-token')
-  ? localStorage.getItem('refresh-token')
-  : null;
-
 const initialState = {
   loading: false,
   userInfo: null,
   userToken, // isLogedIn값과 마찬가지 , 로그인한 사용자인지 아닌지 판별
-  refreshToken,
   error: null,
   success: false,
   nickMsg: null, // 중복체크 메시지
@@ -30,7 +25,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('userToken');
+      localStorage.removeItem('access-token');
+      localStorage.removeItem('user-info');
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;
@@ -46,10 +42,8 @@ const userSlice = createSlice({
     [userLogin.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload.data.data;
-      localStorage.setItem('user-info', payload.data.data.nickname);
+      // localStorage.setItem('user-info', payload.data.data.nickname);
       state.userToken = payload.headers.authorization;
-      state.refreshToken = payload.headers.refreshtoken;
-      console.log(payload.headers.refreshToken);
     },
     [userLogin.rejected]: (state, { payload }) => {
       state.loading = false;
