@@ -1,53 +1,93 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { __getCommentAllByPostId, __deleteCommentByCommentId } from '../../redux/modules/commentSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { __deleteCommentByCommentId, __updateCommentByCommentId, __getCommentAllByPostId } from '../../redux/modules/commentSlice';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const CommentList = ({ setCommentCount }) => {
+const CommentList = ({ commentsList }) => {
   const dispatch = useDispatch();
-  const commentsList = useSelector(state => state.commentSlice.comment);
   const postId = useParams().postId;
-  
-  console.log("postId======>", postId);
-
-  useEffect(() => {
-    dispatch(__getCommentAllByPostId(postId));
-  }, [dispatch]);
-
-  // :: 댓글 수 부모 컨포넌트 전달!
-  useEffect(() => {
-    setCommentCount(commentsList.commentcount);
-  }, []);
+  const [ updateCommentMessage, setUpdateCommentMessage ] = useState(commentsList.comment);
+  const [ formToggle, setFormToggle ] = useState(false);
 
   // :: 댓글 삭제
   const onClickDeleteComment = (commentId) => {
     dispatch(__deleteCommentByCommentId(commentId));
   }
-  
 
-  console.log(commentsList);
+  // ::: 수정하기 활성화
+  const onClickOpenUpdateForm = () => {
+    setFormToggle(!formToggle)
+  }
+
+  const onChangeUpdateCommentMessage = (event) => {
+    setUpdateCommentMessage(event.target.value);
+  }
   
+  // ::: 댓글 수정
+  const onClickUpdateComment = (commentId) => {
+    dispatch(__updateCommentByCommentId({
+      commentId: commentId,
+      comment: updateCommentMessage
+    }));
+  }
+
+  // ::: 댓글 수정 취소
+  const onClickCancelComment = () => {}
+
+  console.log("++++++++++++++++>>>>>>", commentsList);
   return (
     <StCommentListWrap>
-      {commentsList.map((comment) => (
-        <StCommentBox>
+      {commentsList.responseDto &&
+      commentsList.responseDto.map((comment) => (
+        <StCommentBox key={comment.commentId}>
           <div className='rowComment'>
             <div className='commentInfo'>
               <div className='commentProfileImage'>
-                이미지 사진!!
+                <img src={comment.profileimage} alt={comment.comment} />
               </div>
               <dl>
                 <dt>{comment.username}</dt>
                 <dd>{comment.createdAt}</dd>
               </dl>
             </div>
-            <p>
-              <span>수정</span>
+            <StUpdateDeleteButton
+              formToggle={formToggle}
+            >
+              <span onClick={onClickOpenUpdateForm}>수정</span>
               <span onClick={() => onClickDeleteComment(comment.commentId)}>삭제</span>
-            </p>
+            </StUpdateDeleteButton>
           </div>
-          <p>{comment.comment}</p>
+          <StCommentTextBox
+            formToggle={formToggle}
+          >
+          {comment.comment}
+          </StCommentTextBox>
+            
+          <StCommentReviseFormWrap
+            formToggle={formToggle}
+          >
+              <textarea 
+                onChange={onChangeUpdateCommentMessage}
+                
+              >
+                
+              </textarea>
+              <div className='commentAddButtonWrap'>
+                <button 
+                  className='buttonWhite'
+                  onClick={onClickCancelComment}
+                >
+                  취소
+                </button>
+                <button 
+                  className='buttonPoint'
+                  onClick={()=>onClickUpdateComment(comment.commentId)}
+                >
+                  댓글 수정
+                </button>
+              </div>
+            </StCommentReviseFormWrap>
         </StCommentBox>
       ))}
     </StCommentListWrap>
@@ -86,6 +126,12 @@ const StCommentBox = styled.div`
       overflow: hidden;
       background-color: var(--bg-color);
       border: var(--border-style);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
     dl {
       
@@ -109,5 +155,46 @@ const StCommentBox = styled.div`
     letter-spacing: -0.004em;
     word-break: keep-all;
     overflow-wrap: break-word;
+  }
+`;
+
+const StUpdateDeleteButton = styled.p`
+  display: ${(props) => props.formToggle===false ? 'block' : 'none'};
+
+  span {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+  }
+`;
+
+const StCommentTextBox = styled.p`
+  display: ${(props) => props.formToggle===false ? 'block' : 'none'};
+`;
+
+
+const StCommentReviseFormWrap = styled.div`
+  width: 100%;
+  display: ${(props) => props.formToggle===false ? 'none' : 'block'};
+
+  textarea {
+    width: 100%;
+    height: 70px;
+    resize: none;
+    padding: 1rem 1rem 1.5rem;
+    outline: none;
+    border: var(--border-style);
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    min-height: 6.125rem;
+    font-size: 1rem;
+    color: var(--title-color);
+    line-height: 1.75;
+    background: var(--subBg-color);
+
+  }
+  .commentAddButtonWrap {
+    display: flex;
+    justify-content: flex-end;
   }
 `;

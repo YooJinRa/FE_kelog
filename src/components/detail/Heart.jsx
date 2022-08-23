@@ -6,7 +6,8 @@ import { BsShareFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 const Heart = ({postDetail}) => {
-  const [ clickHeartOn, setClickHeartOn ] = useState(false); //postDetail.heartOn
+  const [ clickHeartOn, setClickHeartOn ] = useState(postDetail.heartPush); 
+  const [ postHeartCount, setPostHeartCount ] = useState(postDetail.heartCount);
 
 
   const location = useLocation();
@@ -16,6 +17,9 @@ const Heart = ({postDetail}) => {
   const URL = {
     BASE: process.env.REACT_APP_BASE_URL,
     CLIENT: process.env.REACT_APP_CLIENT_URL,
+  };
+  const USER = {
+    AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
   };
   // ::: 링크 복사기능
   const handleCopyClicpBoard = async (url) => {
@@ -29,16 +33,19 @@ const Heart = ({postDetail}) => {
   const onClickHeart = async() => {
     // 게시글 불러올때 해당유저가 해당게시글에 하트를 눌렀는지 안눌렀는지 확인
     
-    const heartResponse = await axios.post(`${URL.BASE}api/${postDetail.id}/postheart`, {}, {
+    const heartResponse = await axios.post(`${URL.BASE}api/postheart/${postDetail.id}`, {}, {
       headers: {
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTE3NzE4NX0.Z8FvKFZ1HoeNG2CUixd4nkLd4Dml4JniUYaOWr-ZM-A"
+        Authorization: `${USER.AUTHORIZATION}`,
       }
     });
-    console.log(heartResponse.data);
-    setClickHeartOn(!clickHeartOn);
-    console.log("좋아요 눌렀니 안눌렀니~!", clickHeartOn);
 
+    console.log("heartResponseData", heartResponse.data);
+
+    setClickHeartOn(Boolean(heartResponse.data.result));
+    setPostHeartCount(heartResponse.data.data);
   }
+
+  console.log(clickHeartOn);
 
   return (
     <StPostLeftMenuBox>
@@ -50,7 +57,7 @@ const Heart = ({postDetail}) => {
         <FaHeart size="24" />
       </StHeartIcon>
       <div className='heartCount'>
-        {clickHeartOn === true ? Number(postDetail.heartCount)+1: Number(postDetail.heartCount)-1}
+        {postHeartCount}
       </div>
       <div 
         className='sharedLinkIcon round'

@@ -7,7 +7,7 @@ import { BsFillSunFill, BsSearch } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
 
-const GlobalHeader = () => {
+const GlobalHeader = ({ userDetail }) => {
   return (
     <StGlobalHeaderWrap>
       <GlobalLayout>
@@ -16,7 +16,7 @@ const GlobalHeader = () => {
             <Link to={`/`}>
               <img src={detailHeaderLogo} alt='logo' />
             </Link>
-            <strong>작성자 아이디 .log</strong>
+            <strong>{userDetail.account} .log</strong>
           </h1>
           <StHeaderRightWrap>
             <StLightDarkBox>

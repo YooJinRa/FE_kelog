@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { __getPostDetail } from '../../redux/modules/postSlice';
 import Heart from './Heart';
 
-const DetailContainer = ({ postDetail }) => {
+const DetailContainer = ({ postDetail, userDetail }) => {
 
   return (
     <StDetailContainer>
@@ -13,16 +13,16 @@ const DetailContainer = ({ postDetail }) => {
         <h1>{postDetail.title}</h1>
         <StPostInfoBox>
           <p className='postInfo'>
-            <strong>작성자 닉네임</strong> 
+            <strong>{userDetail.username}</strong> 
             <b>&#183;</b>
             <span>{postDetail.createdAt}</span>
           </p>
-          <button className='postHeartCount'>
+          {/* <button className='postHeartCount'>
             <FaHeart size="12" color="var(--subGray-color)" />
             <span>
               {postDetail.heartCount === null ? 0 : postDetail.heartCount}
             </span>
-          </button>
+          </button> */}
         </StPostInfoBox>
        
         <StPostDetailTagBox>

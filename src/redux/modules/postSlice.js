@@ -10,21 +10,9 @@ const initialState = {
   isLoading: false,
   error: null,
   post: [],
-  postDetail: {}
+  postDetail: {},
+  userDetail: {}
 }
-
-// ::: 메인 게시글 리스트 출력
-export const __getPostAll = createAsyncThunk(
-  "main/__getPostAll",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await axios.get(`${URL.BASE}api/post`);
-      return thunkAPI.fulfillWithValue(response.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
 
 // ::: 상세 게시글 출력
 export const __getPostDetail = createAsyncThunk(
@@ -39,20 +27,36 @@ export const __getPostDetail = createAsyncThunk(
   }
 );
 
+// ::: 상세 유저정보 출력
+export const __getUserDetail = createAsyncThunk(
+  "detail/__getUserDetail",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.get(`${URL.BASE}api/info/${payload}`);
+
+      console.log("######user", response.data);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
 const postSlice = createSlice({
   name: "postSlice",
   initialState,
   reducers: {},
   extraReducers: {
-    // :: 전체 게시글 불러오기
-    [__getPostAll.pending]: (state, action) => {
+    // :: 유저 정보 불러오기
+    [__getUserDetail.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [__getPostAll.fulfilled]: (state, action) => {
+    [__getUserDetail.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.post = [...action.payload.data];
+      state.userDetail = action.payload;
     },
-    [__getPostAll.rejected]: (state, action) => {
+    [__getUserDetail.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

@@ -3,14 +3,14 @@ import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import styled from 'styled-components';
 
-const CommentContainer = () => {
-  const [ commentCount, setCommentCount ] = useState(0);
+const CommentContainer = ({ commentsList }) => {
 
+  console.log("++++++++++++++commentContainer", commentsList);
   return (
     <StCommentContainer>
-      <h3>{commentCount}개의 댓글</h3>
+      <h3>{commentsList.commentcount}개의 댓글</h3>
       <CommentForm />
-      <CommentList setCommentCount={setCommentCount} />
+      <CommentList commentsList={commentsList} />
     </StCommentContainer>
   );
 };
