@@ -15,3 +15,7 @@ const MainTrendingPage = () => {
 };
 
 export default MainTrendingPage;
+
+const StMainTrendingPageWrap = styled.div`
+  border: 1px solid blue;
+`;
