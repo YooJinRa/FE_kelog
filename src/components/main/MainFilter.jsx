@@ -1,8 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SelectBoxContainer from './SelectBoxContainer';
+import DateItem from './DateItem';
 
 const MainFilter = () => {
+  const [state, setState] = useState(false);
+
+  const onChangeState = () => {
+    setState(!state);
+  };
+
+  // const [date, setDate] = useState({
+  //   today: '오늘',
+  //   week: '이번 주',
+  //   month: '이번 달',
+  //   year: '올해',
+  // });
+
+  const [value, setValue] = useState('오늘');
+
+  const onChangeValue = (text) => {
+    setValue(text);
+  };
+
+  // const onChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setDate({
+  //     ...date,
+  //     [name]: value,
+  //   });
+  // };
+
   return (
     <Stwrapper className='filter-box'>
       <div className='filter-items'>
@@ -38,8 +66,8 @@ const MainFilter = () => {
           <div className='underline'></div>
         </div>
         <div className='today'>
-          {/* 오늘 */}
-          {/* <svg
+          {value}
+          <svg
             stroke='currentColor'
             fill='currentColor'
             strokeWidth='0'
@@ -47,10 +75,11 @@ const MainFilter = () => {
             height='1em'
             width='1em'
             xmlns='http://www.w3.org/2000/svg'
+            onClick={onChangeState}
           >
             <path d='M7 10l5 5 5-5z'></path>
-          </svg> */}
-          <SelectBoxContainer />
+          </svg>
+          {state === true ? <DateItem onChangeValue={onChangeValue} /> : null}
         </div>
       </div>
     </Stwrapper>
