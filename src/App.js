@@ -1,10 +1,7 @@
-// import GlobalHeaders from './components/global/GlobalHeaders';
-import MainTrendingPage from './page/MainTrendingPage';
-
-// import Carousel from './components/register/Carousel';
+import Routers from '../src/routers/Routers';
 
 function App() {
-  return <MainTrendingPage />;
+  return <Routers />;
 }
 
 export default App;
