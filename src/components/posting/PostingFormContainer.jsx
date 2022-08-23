@@ -83,25 +83,6 @@ const PostingFormContainer = () => {
 
       goingBack();
 
-      goingBack();
-    }
-  }
-
- 
-
-
-      // ::: 초기화
-      setCompressedImageFile(null);
-      setTagList([]);
-      setPostInputs({
-        title: '',
-        content: '',
-      });
-<<<<<<< HEAD
-
-      goingBack();
-=======
->>>>>>> 8625113 (DEV : Add Tag & Server Connect)
     }
   }
 
