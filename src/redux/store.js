@@ -1,13 +1,25 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
+import user from './modules/userSlice';
+import post from './modules/mainPostSlice';
+import commentSlice from "./modules/commentSlice";
 import postSlice from "./modules/postSlice";
+import commentSlice from "./modules/commentSlice";
 
-// ::: 여러개의 reducer 통합
-const reducer = combineReducers({
-  postSlice
+const middlewares = [thunk];
+
+// 리듀서 통합
+const rootReducer = combineReducers({
+  user,
+  post,
+  postSlice,
+  commentSlice
 });
 
-// ::: 스토어 생성, 미들웨어 설정
-export default configureStore({
-  reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+// 스토어 연결
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunk],
 });
+
+export default store;
