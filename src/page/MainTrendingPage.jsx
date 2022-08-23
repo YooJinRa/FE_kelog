@@ -15,3 +15,4 @@ const MainTrendingPage = () => {
 };
 
 export default MainTrendingPage;
+
