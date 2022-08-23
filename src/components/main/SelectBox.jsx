@@ -42,7 +42,6 @@ export const Select = styled.select`
   cursor: pointer;
   padding-left: 0px;
   margin: 0px;
-  position: absolute;
   option {
     cursor: pointer;
     font-weight: 600;
