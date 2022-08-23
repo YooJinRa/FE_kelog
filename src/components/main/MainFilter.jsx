@@ -35,7 +35,7 @@ const MainFilter = () => {
     <Stwrapper className='filter-box'>
       <div className='filter-items'>
         <div className='filter-left'>
-          <a aria-current='page' class='active' href='/' className='trending'>
+          <a aria-current='page' href='/' className='trending active'>
             <svg
               stroke='currentColor'
               fill='currentColor'
