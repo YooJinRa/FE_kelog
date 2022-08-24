@@ -43,6 +43,9 @@ const PostingFormContainer = () => {
       const URL = {
         BASE: process.env.REACT_APP_BASE_URL,
       };
+      const USER = {
+        AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
+      };
 
       // :: image file formData 형식 변환
       const form = new FormData();
@@ -65,10 +68,17 @@ const PostingFormContainer = () => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTA2NTU2M30.WD1dQUYX57gRN7c3aF6WTxZtcaDLoQ4NAjyKDjPQBqE"
+              Authorization: `${USER.AUTHORIZATION}`
             },
           }
         );
+        
+        console.log("postContentsResponse:::", postContentsResponse);
+
+
+        
+        navigate(`/post/${postContentsResponse.data.data.id}`, {replace: true});
+
       } catch(error) {
         console.log(error);
       }
@@ -81,11 +91,15 @@ const PostingFormContainer = () => {
         content: '',
       });
 
-      goingBack();
+      
+
+      
 
     }
   }
 
+
+  // navigate(`/${postContentsResponse.data.data.id}`, {replace: true});
  
 
 

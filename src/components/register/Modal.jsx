@@ -100,7 +100,7 @@ const Background = styled.div`
 
   .white-block {
     flex: 1 1 0%;
-    background: var(--bg-page2);
+    background: burlywood;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;

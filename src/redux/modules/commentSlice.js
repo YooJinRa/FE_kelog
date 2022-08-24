@@ -4,13 +4,36 @@ import axios from "axios";
 const URL = {
   BASE: process.env.REACT_APP_BASE_URL,
 };
+const USER = {
+  AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
+};
 
 // ::: 초기값
 const initialState = {
   isLoading: false,
   error: null,
-  comment: [],
+  comment: {},
 }
+
+// ::: 댓글 등록
+export const __createCommentByPostId = createAsyncThunk(
+  "detail/__createCommentByPostId",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.post(`${URL.BASE}api/comment/${payload.postId}`, {
+        comment: payload.comment
+      }, {
+        headers: {
+          Authorization: `${USER.AUTHORIZATION}`
+        }
+      });
+
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 // ::: 댓글 리스트 출력
 export const __getCommentAllByPostId = createAsyncThunk(
@@ -33,13 +56,31 @@ export const __deleteCommentByCommentId = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.delete(`${URL.BASE}api/comment/${payload}`, {
+        headers: {
+          Authorization: `${USER.AUTHORIZATION}`
+        }
+      }, {});
 
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// ::: 댓글 수정
+export const __updateCommentByCommentId = createAsyncThunk(
+  "detail/__updateCommentByCommentId",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.put(`${URL.BASE}api/comment/${payload.commentId}`, {
+        comment: payload.comment,
       }, {
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJOYW1lIjoic3BhcnRhIiwibWVtYmVyTmlja25hbWUiOiJHZXJhcmQgQnV0bGVyIiwiZXhwIjoxNjYwNTYwNDE3fQ.5xcXeT96I4hRBLmcpmr1HKBrIbVIRR-D3rxF66eRhsc"
+          Authorization: `${USER.AUTHORIZATION}`
         }
       });
-
+      console.log(response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -58,9 +99,27 @@ const commentSlice = createSlice({
     },
     [__getCommentAllByPostId.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comment = [...action.payload.data];
+      state.comment = {...action.payload.data};
     },
     [__getCommentAllByPostId.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+
+    // :: 댓글 등록
+    [__createCommentByPostId.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [__createCommentByPostId.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log("create :::: state.comment+++++++++>>>>", state.comment);
+      console.log("create :::: action.payload+++++++++>>>>", action.payload);
+      state.comment.responseDto.push(action.payload.data);
+      state.comment.commentcount += 1;
+      console.log("!!!!!!!!!!!!!create :::: state.comment+++++++++>>>>", state.comment);
+    },
+    [__createCommentByPostId.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
@@ -72,11 +131,37 @@ const commentSlice = createSlice({
     },
     [__deleteCommentByCommentId.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comment = state.comment.filter(
-        (commentCard) => commentCard.commentId !== action.payload
-      );
+      console.log("delete :::: state.comment.responseDto+++++++++>>>>", state.comment.responseDto);
+      console.log("delete :::: action.payload+++++++++>>>>", action.payload.data);
+
+      state.comment.responseDto = state.comment.responseDto.filter(
+        (commentCard) => 
+          commentCard.commentId !== action.payload.data
+        );
+      state.comment.commentcount -= 1;
     },
     [__deleteCommentByCommentId.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+
+    // :: 댓글 수정
+    [__updateCommentByCommentId.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [__updateCommentByCommentId.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log("update :::: state.comment.responseDto+++++++++>>>>", state.comment.responseDto);
+      console.log("update :::: action.payload+++++++++>>>>", action.payload.data);
+
+      state.comment.responseDto = state.comment.responseDto.map((commentCard) => (
+        commentCard.commentId === action.payload.data.commentId
+          ? action.payload.data
+          : commentCard
+      ));
+    },
+    [__updateCommentByCommentId.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

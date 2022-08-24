@@ -43,6 +43,7 @@ const LoginForm = (props) => {
       password: data.password,
     };
     dispatch(userLogin(body));
+    // useSelector 사용해서 succes가 true이면 메인 페이지로 이동
   };
 
   console.log(watch());

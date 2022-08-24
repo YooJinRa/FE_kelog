@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { clickData } from '../../redux/modules/mainPostSlice';
+import { useDispatch } from 'react-redux';
 
 const DateItem = (props) => {
   const sendListValue = (text) => {
@@ -7,10 +9,11 @@ const DateItem = (props) => {
     props.onChangeValue(text);
   };
 
-  //   let ul = document.querySelector('ul');
-  //   ul.addEventListener('click', (e) => {
-  //     alert(e.target.innerText + 'is Clicked');
-  //   });
+  const dispatch = useDispatch();
+
+  // const onClickDateItem = (day) => {
+  //   dispatch(clickData(day));
+  // };
 
   return (
     <Wrapper>
