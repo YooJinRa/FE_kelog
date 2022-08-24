@@ -1,17 +1,20 @@
 import React from 'react';
+import { __getUserDetail } from '../../redux/modules/postSlice';
 import { FaGithub } from 'react-icons/fa';
 import { MdHome } from 'react-icons/md';
 import { GrMail } from 'react-icons/gr';
 import styled from 'styled-components';
 
-const UserContainer = () => {
+const UserContainer = ({userDetail}) => {
+
+  console.log("userDetail:::::", userDetail);
   return (
   <StUserContainer>
     <StUserInfoBox>
-      <p>유저 사진</p>
+      <p><img src={userDetail.profileImg} alt={`${userDetail.username} Profile Image`} /></p>
       <dl>
-        <dt>유저 이름</dt>
-        <dd>유저 한줄 소개</dd>
+        <dt>{userDetail.username}</dt>
+        <dd>{userDetail.userComment}</dd>
       </dl>
     </StUserInfoBox>
     <p className='line'></p>
@@ -56,6 +59,12 @@ const StUserInfoBox = styled.div`
     box-shadow: var(--shadow-style);
     overflow: hidden;
     background-color: var(--bg-color);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   dl {
     display: flex;
