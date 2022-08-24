@@ -15,6 +15,8 @@ const DetailPage = () => {
   const postDetail = useSelector((state) => state.postSlice.postDetail);
   const commentsList = useSelector(state => state.commentSlice.comment);
   const userDetail = useSelector((state) => state.postSlice.userDetail);
+  const heartCount = useSelector(state => state.postSlice.heartCount);
+  const heartPush = useSelector(state => state.postSlice.heartPush);
   const postId = useParams().postId;
   
   useEffect(() => {
@@ -25,6 +27,9 @@ const DetailPage = () => {
 
   console.log(postId);
   console.log("=============>", userDetail);
+  console.log("Detail_page=============>", postDetail);
+  console.log("Detail_page=============>", heartPush);
+  console.log("Detail_page=============>", heartCount);
   return (
     <StDetailPageWrap>
       {/* user id header에 보내야함 */}
@@ -34,7 +39,9 @@ const DetailPage = () => {
       <GlobalLayout>
         <DetailContainer 
           postDetail={postDetail} 
-          userDetail={userDetail} 
+          userDetail={userDetail}
+          heartCount={heartCount}
+          heartPush={heartPush}
         />
         <UserContainer userDetail={userDetail} />
         <CommentContainer commentsList={commentsList} />

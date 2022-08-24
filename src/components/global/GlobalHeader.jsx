@@ -34,7 +34,10 @@ const GlobalHeader = ({ userDetail }) => {
             </Link>
 
             <StProfileBox>
-              <p></p>
+              <p>
+                {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
+                <img src={userDetail.profileImg} alt="user profile image" />
+              </p>
               <IoMdArrowDropdown />
             </StProfileBox>
 
@@ -132,5 +135,9 @@ const StProfileBox = styled.div`
     font-size: 1.5rem;
     margin-right: -0.4375rem;
     transition: all 0.125s ease-in 0s;
+  }
+  img {
+    width: 100%;
+    height: 100%;
   }
 `;
