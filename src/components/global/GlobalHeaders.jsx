@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import ModalPortal from '../register/Portal';
+import Modal from '../register/Modal';
 
 const GlobalHeaders = () => {
+  const [modalOn, setModalOn] = useState(false);
+
+  // 모달 상태 변경
+  const handleModal = () => {
+    setModalOn(!modalOn);
+  };
+
   return (
     <StHeader>
       <div className='section'>
@@ -47,7 +56,12 @@ const GlobalHeaders = () => {
               ></path>
             </svg>
           </a>
-          <button className='login'>로그인</button>
+          <button className='login' onClick={handleModal}>
+            로그인
+          </button>
+          <ModalPortal>
+            {modalOn && <Modal onClose={handleModal} />}
+          </ModalPortal>
         </div>
       </div>
     </StHeader>
