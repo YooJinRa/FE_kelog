@@ -10,7 +10,7 @@ const refreshToken = localStorage.getItem('refresh-token')
   : null;
 
 const initialState = {
-  post: [],
+  recentPost: [],
   trendingPost: [],
   todayPost: [],
   weekPost: [],
@@ -24,18 +24,19 @@ const initialState = {
   refreshToken,
 };
 
-const api = 'http://43.200.179.217:8080';
-
 // 게시글 가져오기
 // payload -> 전체 글 데이터
 
 // 최신순 -> post
-export const getData = createAsyncThunk(
-  'post/getData',
+export const getRecentData = createAsyncThunk(
+  'post/getRecentData',
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=NEW`
+      );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -50,7 +51,10 @@ export const getTrendingData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=TODAY`
+      );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -65,7 +69,9 @@ export const getTodayData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=TODAY`
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -80,7 +86,9 @@ export const getWeekData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=WEEK`
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -95,7 +103,9 @@ export const getMonthData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=MONTH`
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -110,7 +120,9 @@ export const getYearData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=YEAR`
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -125,7 +137,17 @@ export const getMyData = createAsyncThunk(
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: user.userToken,
+        },
+      };
+      const response = await axios.get(
+        `http://3.38.48.108/api/post?Category=MYPAGE`,
+        config
+      );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -219,25 +241,22 @@ export const getMyData = createAsyncThunk(
 export const postSlice = createSlice({
   name: 'post',
   initialState,
-  reducers: {
-    clickData: (state, action) => {
-      state.clickData = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
-    [getData.pending]: (state) => {
+    [getRecentData.pending]: (state) => {
       state.isLoading = true;
     },
-    [getData.fulfilled]: (state, action) => {
+    [getRecentData.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.post = action.payload;
+      state.recentPost = action.payload;
     },
-    [getData.rejected]: (state, action) => {
+    [getRecentData.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
     [getTrendingData.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(action.payload);
       state.trendingPost = action.payload;
     },
     [getTodayData.fulfilled]: (state, action) => {
