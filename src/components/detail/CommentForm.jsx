@@ -1,36 +1,27 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { __createCommentByPostId } from '../../redux/modules/commentSlice';
+import { useDispatch } from 'react-redux';
 
 const CommentForm = () => {
+  const dispatch = useDispatch();
   const postId = useParams().postId;
-  console.log("commentForm_postId =====>", postId);
   const [commentTextArea, setCommentTextArea] = useState('');
 
-  const URL = {
-    BASE: process.env.REACT_APP_BASE_URL,
-  };
+
+  // ::: 댓글 등록 입력값 확인
   const onChangeCommentMessage = (event) => {
     setCommentTextArea(event.target.value);
   }
 
-  const onClickAddComment = async () => {
-    // :: 댓글 등록
-    try {
-      const response = await axios.post(`${URL.BASE}api/comment/${postId}`, {
-        comment: commentTextArea,
-      }, {
-        headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MSIsImV4cCI6MTY2MTE5MTM2OH0.R0oATGNrxDv4SNheXNbJN5Mz7MRR0wVPaxiM1gItUJU"
-        }
-      });
-      console.log(response.data);
-      return response.data;
-    } catch(error) {
-      console.log(error);
-    }
-    
+  // ::: 댓글 등록
+  const onClickAddComment = () => {
+    dispatch(__createCommentByPostId({
+      comment: commentTextArea,
+      postId: postId
+    }));
+    setCommentTextArea('');
   }
 
   return (
@@ -38,6 +29,7 @@ const CommentForm = () => {
       <textarea 
         placeholder='댓글을 작성하세요.'
         onChange={onChangeCommentMessage}
+        value={commentTextArea}
       >
       </textarea>
       <div className='commentAddButtonWrap'>
