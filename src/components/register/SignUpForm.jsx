@@ -64,7 +64,7 @@ const SignUpForm = (props) => {
 
     try {
       const postRegisterResponse = await axios.post(
-        `http://3.213.218.180:8080/api/register`,
+        `${URL.BASE}api/register`,
         form,
         {
           headers: {
@@ -99,10 +99,13 @@ const SignUpForm = (props) => {
 
   return (
     <>
-      <STh2>회원가입</STh2>
+      <STh2>
+        환영합니다!
+        <p>기본 회원 정보를 등록해주세요.</p>
+      </STh2>
+      
       <STsection>
         <form onSubmit={handleSubmit(onSubmit, onError)}>
-          <h1>이미지 등록하기</h1>
           <PostImage setCompressedImageFile={setCompressedImageFile} />
           <h1>이름</h1>
           <input
@@ -139,7 +142,7 @@ const SignUpForm = (props) => {
             onChange={onChange}
             // 중복이면 true 중복이 아니면 false
           />
-          <button onClick={onDuplicate}>아이디 중복 체크</button>
+          <button className='buttonPoint' onClick={onDuplicate}>아이디 중복 체크</button>
           {errors.userId && <p>{errors?.userId?.message}</p>}
           <h1>비밀번호</h1>
           <input
@@ -197,12 +200,14 @@ const SignUpForm = (props) => {
           {errors.introduction && (
             <small role='alert'>{errors.introduction.message}</small>
           )}
-          <button type='submit' className='submit-btn' onClick={onSubmit}>
-            회원가입
-          </button>
-          <button type='submit' className='submit-btn' onClick={sendData}>
-            이미 회원이시라면?
-          </button>
+          <p className='buttonBox'>
+            <button type='submit' className='buttonPoint submit-btn' onClick={onSubmit}>
+              회원가입
+            </button>
+            <button type='submit' className='submit-btn' onClick={sendData}>
+              이미 회원이시라면?
+            </button>
+          </p>
         </form>
       </STsection>
     </>
@@ -212,37 +217,63 @@ const SignUpForm = (props) => {
 export default SignUpForm;
 
 const STh2 = styled.h2`
-  font-size: 1.125rem;
-  color: var(--text1);
+  font-size: 3rem;
+  color: var(--title-color);
+  font-weight: 700;
+  text-align: left;
   margin: 0px;
+  p {
+    font-size: 1.5rem;
+    color: var(--title-color);
+  }
 `;
 
 const STsection = styled.section`
+
   form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     margin-top: 1.5rem;
-    width: 100%;
-    display: block;
-    height: 3rem;
+    width:80%;
+    /* display: block; */
     h1 {
+      width: 100%;
       text-align: left;
       font-weight: bold;
+      color: var(--title-color);
+      margin-bottom: 0.5rem;
     }
     input {
-      margin-top: 0.5rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.5rem;
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
+      border-top: 0px solid var(--title-color);
+      border-left: 0px solid var(--title-color);
+      border-right: 0px solid var(--title-color);
+      border-bottom: 1px solid var(--subGray-color);
       font-size: 1rem;
-      color: var(--text1);
+      color: var(--title-color);
       flex: 1 1 0%;
       padding: 0.5rem;
+      font-size: 1.2rem;
       width: 100%;
-      background: var(--bg-element1);
+      background: var(--bg-color);
       outline: none;
       display: block;
     }
+    .buttonBox {
+      
+    }
     button {
-      margin-top: 1rem;
-      width: 75%;
+      margin-top: 0.8rem;
+      margin-bottom: 0.8rem;
+      margin-right: 0.7rem;
+      padding: 0.25rem 1rem;
+      border-radius: 0.8rem;
+      font-size: 1.25rem;
     }
   }
 `;
