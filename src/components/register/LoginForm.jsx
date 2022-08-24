@@ -115,15 +115,18 @@ const LoginForm = (props) => {
 export default LoginForm;
 
 const STh2 = styled.h2`
-  font-size: 1.125rem;
-  color: var(--text1);
+  font-size: 3rem;
+  color: var(--title-color);
+  font-weight: 700;
+  text-align: left;
   margin: 0px;
 `;
 
 const STsection = styled.section`
+  width: 80%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
   transform: translateY(-20%);
   form {
@@ -131,31 +134,43 @@ const STsection = styled.section`
     width: 100%;
     display: block;
     h1 {
+      width: 100%;
       text-align: left;
       font-weight: bold;
+      color: var(--title-color);
+      margin-bottom: 0.5rem;
     }
     input {
-      margin-top: 0.5rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.5rem;
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
+      border-top: 0px solid var(--title-color);
+      border-left: 0px solid var(--title-color);
+      border-right: 0px solid var(--title-color);
+      border-bottom: 1px solid var(--subGray-color);
       font-size: 1rem;
-      color: var(--text1);
+      color: var(--title-color);
       flex: 1 1 0%;
       padding: 0.5rem;
+      font-size: 1.2rem;
       width: 100%;
-      background: var(--bg-element1);
+      background: var(--bg-color);
       outline: none;
       display: block;
     }
     .submit-box {
-      display: block;
-      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
       .submit-btn {
-        margin-top: 10px;
-        width: 75%;
-        margin: 0 auto;
-        margin-top: 2rem;
+        width: 100%;
+        margin-top: 1.2rem;
       }
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 1.25rem;
     }
   }
 `;
