@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
@@ -11,8 +11,10 @@ const MainFilter = (props) => {
   };
 
   const [value, setValue] = useState('오늘');
-  console.log(value); // 오늘 , 이번 주 , 이번 달 , 올해  , value값 기준으로 메인페이지 조건부 렌더링
-  props.onChangeData(value);
+  useEffect(() => {
+    props.onChangeData(value);
+  }, [props, props.onChangeData, value]);
+  // props.onChangeData(value);
 
   const onChangeValue = (text) => {
     setValue(text);

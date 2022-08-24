@@ -14,7 +14,7 @@ export default function FavoredProductTypePage() {
     try {
       const { data } = await axios.get(
         // limit은 pageSize
-        `http://3.213.218.180:8080/api/post?Category=NEW&page=1&size=20`
+        `http://3.38.48.108/api/post?Category=NEW&page=1&size=20`
       );
       console.log(data);
       setRandomImageList(randomImageList.concat(data));

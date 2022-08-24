@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import GlobalLayout from './../components/global/GlobalLayout';
 import GlobalHeaders from '../components/global/GlobalHeaders';
 import MainRecentFilter from '../components/main/MainRecentFilter';
-import MainContainer from '../components/main/MainContainer';
+import MainRecentContainer from '../components/main/MainRecentContainer';
 
 const MainRecentPage = () => {
   const [data, setData] = useState();
@@ -15,7 +15,7 @@ const MainRecentPage = () => {
     <GlobalLayout>
       <GlobalHeaders />
       <MainRecentFilter onChangeData={onChangeData} />
-      <MainContainer data={data} />
+      <MainRecentContainer data={data} />
     </GlobalLayout>
   );
 };
