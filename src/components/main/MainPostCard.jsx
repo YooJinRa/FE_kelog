@@ -1,26 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
-const MainPostCard = () => {
+const MainPostCard = ({ item }) => {
+  const year = item.createdAt[0];
+  const month = item.createdAt[1];
+  const day = item.createdAt[2];
+  const img = item.imgUrl;
+  const postId = item.id;
+  // 하트 카운트가 없다.(null)  / 작성자도 없다.
+
   return (
     <Stwrapper>
-      <a className='card-image' href='/'>
+      <NavLink className='card-image' to={`/post/${postId}`}>
         <div className='image-box'>
-          <img
-            src='https://velog.velcdn.com/images/geeneve/post/1a9ef368-6c82-48c9-9045-c155532a54b6/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-11-03%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2012.44.32.png'
-            alt='main-img'
-          />
+          <img src={img} alt='main-img' />
         </div>
-      </a>
+      </NavLink>
       <div className='content'>
         <a className='content-title' href='/@geeneve/2021-백엔드-개발자-로드맵'>
-          <h4>2021 백엔드 개발자 로드맵</h4>
+          <h4>{item.title}</h4>
           <div className='content-content'>
-            <p>백엔드 개발자 로드맵</p>
+            <p>{item.content}</p>
           </div>
         </a>
         <div className='sub-info'>
-          <span>2021년 10월 16일</span>
+          <span>
+            {year}년 {month}월 {day}일
+          </span>
           <span className='separator'>·</span>
           <span>23개의 댓글</span>
         </div>
@@ -42,7 +49,7 @@ const MainPostCard = () => {
               d='M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z'
             ></path>
           </svg>
-          568
+          {item.heartCount}3
         </div>
       </div>
     </Stwrapper>
@@ -66,8 +73,10 @@ const Stwrapper = styled.div`
     display: block;
     color: inherit;
     text-decoration: none;
-    .iamge-box {
+    .image-box {
       width: 100%;
+      height: 300px;
+      overflow: hidden;
       position: relative;
       img {
         position: absolute;

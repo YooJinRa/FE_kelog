@@ -29,7 +29,7 @@
 - Comment CRUD
 - Image Upload
 - Image Resizing
-- Dark&Light Mode
+- Dark&Light Modes
 - Shared Url
 
 ### 주요 기능 설명

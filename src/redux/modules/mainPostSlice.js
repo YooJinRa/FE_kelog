@@ -11,7 +11,14 @@ const refreshToken = localStorage.getItem('refresh-token')
 
 const initialState = {
   post: [],
+  trendingPost: [],
+  todayPost: [],
+  weekPost: [],
+  monthPost: [],
+  yearPost: [],
+  myPost: [],
   isLoading: false,
+  clickData: '',
   error: null,
   userToken,
   refreshToken,
@@ -21,12 +28,104 @@ const api = 'http://43.200.179.217:8080';
 
 // 게시글 가져오기
 // payload -> 전체 글 데이터
+
+// 최신순 -> post
 export const getData = createAsyncThunk(
   'post/getData',
   async (payload, { getState, rejectWithValue }) => {
     const { user } = getState();
     try {
-      const response = await axios.get(`${api}/api/post`);
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 트렌딩 페이지 -> trendingPost
+export const getTrendingData = createAsyncThunk(
+  'post/getTrendingData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 오늘 -> todayPost
+export const getTodayData = createAsyncThunk(
+  'post/getDayData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 이번 주 -> weekPost
+export const getWeekData = createAsyncThunk(
+  'post/getWeekData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 이번 달 -> monthPost
+export const getMonthData = createAsyncThunk(
+  'post/getMonthData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 올해 -> yearPost
+export const getYearData = createAsyncThunk(
+  'post/getYearData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// 마이 페이지 -> myPost (헤더에 토큰)
+export const getMyData = createAsyncThunk(
+  'post/getMyData',
+  async (payload, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    try {
+      const response = await axios.get(`http://3.213.218.180:8080/api/post`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -120,19 +219,46 @@ export const getData = createAsyncThunk(
 export const postSlice = createSlice({
   name: 'post',
   initialState,
-  reducers: {},
+  reducers: {
+    clickData: (state, action) => {
+      state.clickData = action.payload;
+    },
+  },
   extraReducers: {
     [getData.pending]: (state) => {
       state.isLoading = true;
     },
     [getData.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action.payload.data); // action.payload
-      state.post = action.payload.data;
+      state.post = action.payload;
     },
     [getData.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+    [getTrendingData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.trendingPost = action.payload;
+    },
+    [getTodayData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.todayPost = action.payload;
+    },
+    [getWeekData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.weekPost = action.payload;
+    },
+    [getMonthData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.monthPost = action.payload;
+    },
+    [getYearData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.yearPost = action.payload;
+    },
+    [getMyData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.myPost = action.payload;
     },
     // [postData.pending]: (state) => {
     //   state.isLoading = true;
@@ -181,5 +307,5 @@ export const postSlice = createSlice({
   },
 });
 
-export const {} = postSlice.actions;
+export const { clickData } = postSlice.actions;
 export default postSlice.reducer;
