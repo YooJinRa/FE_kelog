@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { BsFillSunFill, BsSearch } from 'react-icons/bs';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import ModalPortal from '../register/Portal';
 import Modal from '../register/Modal';
+import GlobalLayout from './GlobalLayout';
 
-const GlobalHeaders = () => {
+const GlobalHeaders = ({ userToken, isLogin, setIsLogIn, isToggle, setIsToggle }) => {
+
   const [modalOn, setModalOn] = useState(false);
+  
+  
+  useEffect(() => {
+    userToken === null ? setIsLogIn(false) : setIsLogIn(true);
+  }, []);
 
   // 모달 상태 변경
   const handleModal = () => {
     setModalOn(!modalOn);
   };
 
+  // ::: 유저 메뉴
+  const onClickProfileMenu = () => {
+    setIsToggle(!isToggle);
+  }
+  console.log("main header 로그인 여부 확인 :::", isLogin);
+  console.log("main header 토글 여부 확인 :::", isToggle);
+
   return (
+    <GlobalLayout>
     <StHeader>
       <div className='section'>
         <div className='title'>
@@ -31,7 +50,7 @@ const GlobalHeaders = () => {
             </svg>
           </a>
         </div>
-        <div className='setting-box'>
+        {/* <div className='setting-box'>
           <button className='mode'>
             <div className='mode-icon-wrapper'>
               <div className='real-mode-icon-wrapper'>
@@ -62,16 +81,57 @@ const GlobalHeaders = () => {
           <ModalPortal>
             {modalOn && <Modal onClose={handleModal} />}
           </ModalPortal>
-        </div>
+        </div> */}
+        <StHeaderRightWrap>
+            <StLightDarkBox>
+              <BsFillSunFill size='24' color='var(--title-color)' />
+            </StLightDarkBox>
+            <StSearchBox>
+              <BsSearch size='18' color='var(--title-color)' />
+            </StSearchBox>
+            <StLoginOffMenu>
+              <button className='login' onClick={handleModal}>
+                로그인
+              </button>
+              <ModalPortal>
+                {modalOn && <Modal onClose={handleModal} />}
+              </ModalPortal>
+            </StLoginOffMenu>
+            <StLoginOnMenu>
+              <Link to={`/post`}>
+                <button 
+                  className='buttonNewPost'
+                >
+                  새 글 작성
+                </button>
+              </Link>
+
+              <StProfileBox>
+                <p onClick={onClickProfileMenu}>
+                  {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
+                  <img src='' alt="user profile image" />
+                </p>
+                <IoMdArrowDropdown />
+                <StDropDownBox isToggle={isToggle}>
+                  <li>내 벨로그</li>
+                  <li>로그아웃</li>
+                </StDropDownBox>
+              </StProfileBox>
+            </StLoginOnMenu>
+          </StHeaderRightWrap>
+
       </div>
     </StHeader>
+    </GlobalLayout>
   );
 };
 
 export default GlobalHeaders;
 
 const StHeader = styled.div`
+  width: 100%;
   height: 4rem;
+  /* box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px; */
   .section {
     height: 100%;
     display: flex;
@@ -80,18 +140,22 @@ const StHeader = styled.div`
     -webkit-box-pack: justify;
     justify-content: space-between;
     .title {
+      height: 100%;
       display: flex;
       -webkit-box-align: center;
       align-items: center;
       -webkit-box-pack: center;
       justify-content: center;
       font-weight: bold;
-      color: var(--text1);
-      font-size: 1.3125rem;
+      color: var(--title-color);
+      font-size: 1.5rem;
       text-decoration: none;
-      font-family: 'Fira Mono', monospace;
+
+      svg {
+        color: var(--title-color);
+      }
     }
-    .setting-box {
+    /* .setting-box {
       display: flex;
       -webkit-box-align: center;
       align-items: center;
@@ -114,9 +178,10 @@ const StHeader = styled.div`
           .real-mode-icon-wrapper {
             transform: scale(1) rotate(0deg);
             opacity: 1;
-            color: var(--text1);
+            color: var(--title-color);
             svg {
               display: block;
+              color: var(--title-color);
             }
           }
         }
@@ -133,12 +198,13 @@ const StHeader = styled.div`
         height: 2.5rem;
         outline: none;
         border-radius: 50%;
-        color: var(--text1);
+        color: var(--title-color);
         cursor: pointer;
         margin-right: 0.5rem;
         svg {
           width: 1.125rem;
           height: 1.125rem;
+          color: var(--title-color);
         }
       }
       .login {
@@ -151,11 +217,137 @@ const StHeader = styled.div`
         outline: none;
         font-weight: bold;
         word-break: keep-all;
-        background: gray; // 로그인 색상
-        color: var(--button-text);
+        background: var(--title-color); // 로그인 색상
+        color: var(--bg-color);
         transition: all 0.125s ease-in 0s;
         cursor: pointer;
       }
-    }
+    } */
+  }
+`; 
+
+
+const StHeaderRightWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+
+  .buttonNewPost {
+    margin-right: 1.25rem;
+    height: 2.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    outline: none;
+    font-weight: bold;
+    word-break: keep-all;
+    border: 1px solid var(--title-color);
+    color: var(--title-color);
+    background-color: var(--subBg-color);
+    transition: all 0.125s ease-in 0s;
+    cursor: pointer;
+  }
+  .buttonNewPost:hover {
+    color: var(--bg-color);
+    background-color: var(--title-color);
+  }
+
+  .login {
+    margin-right: 1.25rem;
+    height: 2.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    outline: none;
+    font-weight: bold;
+    word-break: keep-all;
+    border: 1px solid var(--title-color);
+    color: var(--bg-color);
+    background-color: var(--title-color);
+    transition: all 0.125s ease-in 0s;
+    cursor: pointer;
+  }
+  .login:hover {
+    color: var(--title-color);
+    background-color: var(--bg-color);
+  }
+
+  .loginOn{
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
+const StLoginOffMenu = styled.div`
+  display: ${({isLogin}) => isLogin = false ? 'none' : 'block'};
+  overflow: hidden;
+`;
+const StLoginOnMenu = styled.div`
+  /* display: flex; */
+  flex-direction: row;
+  display: ${({isLogin}) => isLogin = false ? 'flex' : 'none'};
+`;
+
+const StLightDarkBox = styled.div`
+  padding: 1px 6px;
+  margin-right: 0.25rem;
+`;
+
+const StSearchBox = styled.div`
+  margin:0 0.7rem;
+`;
+
+const StProfileBox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  p {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    object-fit: cover;
+    margin-right: 0.25rem;
+    overflow: hidden;
+  }
+  svg {
+    color: var(--subText-color);
+    font-size: 1.5rem;
+    margin-right: -0.4375rem;
+    transition: all 0.125s ease-in 0s;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+
+const StDropDownBox = styled.ul`
+  position: absolute;
+  background-color: var(--bg-color);
+  display: ${({isToggle}) => isToggle  ? 'block' : 'none'};
+  top: 47px;
+  right:0;
+  width: 120px;
+  padding: 0 0.5rem;
+  transition: 0.5ms;
+  box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px;
+  overflow: hidden;
+  
+  li {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 700;
+    color: var(--title-color);
+    border-top: 1px solid var(--subGray-color);
+  }
+  li:first-child {
+    border-top: 0px;
   }
 `;

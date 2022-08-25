@@ -23,15 +23,12 @@ const PostingFormContainer = () => {
     navigate(-1);
   }
   // ::: 이미지 업로드 상태관리
-  const [ compressedImageFile, setCompressedImageFile] = useState(null);
+
   const [ postInputs, setPostInputs ] = useState({
     title: "",
     content: "",
   });
   const [ tagList, setTagList ] = useState(postDetail.tags);
-  console.log("___PostingForm_imageState ====> ", compressedImageFile);
-  console.log("___PostingForm_contentState ====> ", postInputs.title, postInputs.content);
-  console.log("___PostingForm_tagState ====> ", tagList);
 
   const onClickUpdatePost = async(event) => {
     event.preventDefault();
@@ -52,21 +49,6 @@ const PostingFormContainer = () => {
       const USER = {
         AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
       };
-
-      // :: image file formData 형식 변환
-      // const form = new FormData();
-      // form.append("file", `${postDetail.imgUrl}`);
-      
-      // :: info contents blob 형식 변환
-      // const contents = {
-      //   "title": postInputs.title,
-      //   "content": postInputs.content,
-      //   "tags": tagList,
-      // }
-      // const json = JSON.stringify(contents);
-      // const blob = new Blob([json], {type: "application/json"});
-      // form.append("info", blob);
-
       try {
         const postContentsResponse = await axios.put(
           `${URL.BASE}api/post/update/${postId}`, {
@@ -80,18 +62,12 @@ const PostingFormContainer = () => {
             },
           }
         );
-        
-        console.log("postContentsResponse:::", postContentsResponse);
-
-
-        navigate(`/post/${postContentsResponse.data.data.postId}`, {replace: true});
-
+        navigate(`/post/${postContentsResponse.data.data.id}`, {replace: true});
       } catch(error) {
         console.log(error);
       }
 
       // ::: 초기화
-      setCompressedImageFile(null);
       setTagList([]);
       setPostInputs({
         title: '',

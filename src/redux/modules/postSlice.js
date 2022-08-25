@@ -5,7 +5,7 @@ const URL = {
   BASE: process.env.REACT_APP_BASE_URL,
 };
 const USER = {
-  AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
+  AUTHORIZATION: localStorage.getItem('access-token'),
 };
 
 // ::: 초기값

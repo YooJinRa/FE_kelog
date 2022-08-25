@@ -44,7 +44,7 @@ const PostingFormContainer = () => {
         BASE: process.env.REACT_APP_BASE_URL,
       };
       const USER = {
-        AUTHORIZATION: process.env.REACT_APP_CLIENT_AUTHORIZATION,
+        AUTHORIZATION: localStorage.getItem('access-token'),
       };
 
       // :: image file formData 형식 변환
