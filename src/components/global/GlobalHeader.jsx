@@ -7,6 +7,8 @@ import { BsFillSunFill, BsSearch } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import ModalPortal from '../register/Portal';
 import Modal from '../register/Modal';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/modules/userSlice';
 
 const GlobalHeader = ({
   userDetail,
@@ -18,6 +20,8 @@ const GlobalHeader = ({
 }) => {
   const [modalOn, setModalOn] = useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     userToken === null ? setIsLogIn(false) : setIsLogIn(true);
   }, []);
@@ -26,6 +30,16 @@ const GlobalHeader = ({
   const handleModal = () => {
     setModalOn(!modalOn);
   };
+
+  const onLogOut = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    alert('로그아웃 하시겠습니까?');
+    dispatch(logout());
+    window.location.reload();
+  };
+
+  const profile = localStorage.getItem('user-profile');
 
   console.log('detail header 로그인 여부 확인 :::', isLogin);
 
@@ -68,11 +82,10 @@ const GlobalHeader = ({
                 <StProfileBox>
                   <p onClick={onClickProfileMenu}>
                     {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
-                    <img src={userDetail.profileImg} alt='user profile image' />
+                    <img src={profile} alt='user profile image' />
                   </p>
                   <IoMdArrowDropdown />
-                  <StDropDownBox isToggle={isToggle}>
-                    <li>내 벨로그</li>
+                  <StDropDownBox isToggle={isToggle} onClick={onLogOut}>
                     <li>로그아웃</li>
                   </StDropDownBox>
                 </StProfileBox>
