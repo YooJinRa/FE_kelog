@@ -5,9 +5,6 @@ import Infinite from './components/main/Infinite';
 
 function App() {
   return <Routers />;
-  // return <Carousel />;
-  // return <PracInfinite />;
-  // return <Infinite />;
 }
 
 export default App;

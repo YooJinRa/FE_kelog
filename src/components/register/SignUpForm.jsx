@@ -29,6 +29,8 @@ const SignUpForm = (props) => {
 
   // wathc 입력 비활성화
 
+  const success = useSelector((state) => state.user.success);
+
   const onSubmit = async (data) => {
     console.log(data);
     if (data.password !== data.rePassword) {
@@ -76,6 +78,8 @@ const SignUpForm = (props) => {
     } catch (error) {
       console.log(error);
     }
+    alert('회원가입 성공');
+    window.location.reload();
   };
 
   console.log(watch());
@@ -103,7 +107,7 @@ const SignUpForm = (props) => {
         환영합니다!
         <p>기본 회원 정보를 등록해주세요.</p>
       </STh2>
-      
+
       <STsection>
         <form onSubmit={handleSubmit(onSubmit, onError)}>
           <PostImage setCompressedImageFile={setCompressedImageFile} />
@@ -142,7 +146,9 @@ const SignUpForm = (props) => {
             onChange={onChange}
             // 중복이면 true 중복이 아니면 false
           />
-          <button className='buttonPoint' onClick={onDuplicate}>아이디 중복 체크</button>
+          <button className='buttonPoint' onClick={onDuplicate}>
+            아이디 중복 체크
+          </button>
           {errors.userId && <p>{errors?.userId?.message}</p>}
           <h1>비밀번호</h1>
           <input
@@ -201,10 +207,14 @@ const SignUpForm = (props) => {
             <small role='alert'>{errors.introduction.message}</small>
           )}
           <p className='buttonBox'>
-            <button type='submit' className='buttonPoint submit-btn' onClick={onSubmit}>
+            <button
+              type='submit'
+              className='buttonPoint submit-btn'
+              onClick={onSubmit}
+            >
               회원가입
             </button>
-            <button type='submit' className='submit-btn' onClick={sendData}>
+            <button type='button' className='submit-btn' onClick={sendData}>
               이미 회원이시라면?
             </button>
           </p>
@@ -229,14 +239,13 @@ const STh2 = styled.h2`
 `;
 
 const STsection = styled.section`
-
   form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     margin-top: 1.5rem;
-    width:80%;
+    width: 80%;
     /* display: block; */
     h1 {
       width: 100%;
@@ -265,7 +274,6 @@ const STsection = styled.section`
       display: block;
     }
     .buttonBox {
-      
     }
     button {
       margin-top: 0.8rem;

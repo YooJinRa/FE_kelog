@@ -8,11 +8,16 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import ModalPortal from '../register/Portal';
 import Modal from '../register/Modal';
 
-
-const GlobalHeader = ({ userDetail, userToken, isLogin, setIsLogIn, isToggle, setIsToggle }) => {
+const GlobalHeader = ({
+  userDetail,
+  userToken,
+  isLogin,
+  setIsLogIn,
+  isToggle,
+  setIsToggle,
+}) => {
   const [modalOn, setModalOn] = useState(false);
-  
-  
+
   useEffect(() => {
     userToken === null ? setIsLogIn(false) : setIsLogIn(true);
   }, []);
@@ -22,13 +27,13 @@ const GlobalHeader = ({ userDetail, userToken, isLogin, setIsLogIn, isToggle, se
     setModalOn(!modalOn);
   };
 
-  console.log("detail header 로그인 여부 확인 :::", isLogin);
+  console.log('detail header 로그인 여부 확인 :::', isLogin);
 
   // ::: 유저 메뉴
   const onClickProfileMenu = () => {
     setIsToggle(!isToggle);
-  }
-  console.log("detail header 토글 여부 확인 :::", isToggle);
+  };
+  console.log('detail header 토글 여부 확인 :::', isToggle);
   return (
     <StGlobalHeaderWrap>
       <GlobalLayout>
@@ -46,35 +51,33 @@ const GlobalHeader = ({ userDetail, userToken, isLogin, setIsLogIn, isToggle, se
             <StSearchBox>
               <BsSearch size='18' color='var(--title-color)' />
             </StSearchBox>
-            <StLoginOffMenu>
-              <button className='login' onClick={handleModal}>
-                로그인
-              </button>
-              <ModalPortal>
-                {modalOn && <Modal onClose={handleModal} />}
-              </ModalPortal>
-            </StLoginOffMenu>
-            <StLoginOnMenu>
-              <Link to={`/post`}>
-                <button 
-                  className='buttonNewPost'
-                >
-                  새 글 작성
+            {userToken === null ? (
+              <StLoginOffMenu>
+                <button className='login' onClick={handleModal}>
+                  로그인
                 </button>
-              </Link>
-
-              <StProfileBox>
-                <p onClick={onClickProfileMenu}>
-                  {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
-                  <img src={userDetail.profileImg} alt="user profile image" />
-                </p>
-                <IoMdArrowDropdown />
-                <StDropDownBox isToggle={isToggle}>
-                  <li>내 벨로그</li>
-                  <li>로그아웃</li>
-                </StDropDownBox>
-              </StProfileBox>
-            </StLoginOnMenu>
+                <ModalPortal>
+                  {modalOn && <Modal onClose={handleModal} />}
+                </ModalPortal>
+              </StLoginOffMenu>
+            ) : (
+              <StLoginOnMenu>
+                <Link to={`/post`}>
+                  <button className='buttonNewPost'>새 글 작성</button>
+                </Link>
+                <StProfileBox>
+                  <p onClick={onClickProfileMenu}>
+                    {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
+                    <img src={userDetail.profileImg} alt='user profile image' />
+                  </p>
+                  <IoMdArrowDropdown />
+                  <StDropDownBox isToggle={isToggle}>
+                    <li>내 벨로그</li>
+                    <li>로그아웃</li>
+                  </StDropDownBox>
+                </StProfileBox>
+              </StLoginOnMenu>
+            )}
           </StHeaderRightWrap>
         </StHeaderContentBox>
       </GlobalLayout>
@@ -85,7 +88,7 @@ const GlobalHeader = ({ userDetail, userToken, isLogin, setIsLogIn, isToggle, se
 export default GlobalHeader;
 
 const StGlobalHeaderWrap = styled.div`
-  width:100%;
+  width: 100%;
   height: 4rem;
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px;
 `;
@@ -97,7 +100,7 @@ const StHeaderContentBox = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 4rem;
-  
+
   h1 {
     display: flex;
     align-items: center;
@@ -111,7 +114,7 @@ const StHeaderContentBox = styled.div`
   h1 strong {
     font-size: 1.3125rem;
     font-weight: 700;
-    color:var(--title-color);
+    color: var(--title-color);
   }
 `;
 
@@ -163,20 +166,19 @@ const StHeaderRightWrap = styled.div`
     background-color: var(--bg-color);
   }
 
-  .loginOn{
+  .loginOn {
     display: flex;
     flex-direction: row;
   }
 `;
 
 const StLoginOffMenu = styled.div`
-  display: ${({isLogin}) => isLogin = false ? 'none' : 'block'};
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 const StLoginOnMenu = styled.div`
   /* display: flex; */
   flex-direction: row;
-  display: ${({isLogin}) => isLogin = false ? 'flex' : 'none'};
+  display: flex;
 `;
 
 const StLightDarkBox = styled.div`
@@ -185,7 +187,7 @@ const StLightDarkBox = styled.div`
 `;
 
 const StSearchBox = styled.div`
-  margin:0 0.7rem;
+  margin: 0 0.7rem;
 `;
 
 const StProfileBox = styled.div`
@@ -217,15 +219,15 @@ const StProfileBox = styled.div`
 const StDropDownBox = styled.ul`
   position: absolute;
   background-color: var(--bg-color);
-  display: ${({isToggle}) => isToggle  ? 'block' : 'none'};
+  display: ${({ isToggle }) => (isToggle ? 'block' : 'none')};
   top: 47px;
-  right:0;
+  right: 0;
   width: 120px;
   padding: 0 0.5rem;
   transition: 0.5ms;
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px;
   overflow: hidden;
-  
+
   li {
     width: 100%;
     height: 40px;
