@@ -36,9 +36,9 @@ const PostRegisterImage = ({ setCompressedImageFile }) => {
 
   return (
     <StPostImageWrap>
-      <AiOutlinePicture size='110' color='#868E96' />
+      <AiOutlinePicture size='70' color='#868E96' />
       <label className='buttonWhite' htmlFor='inputPostImageFile'>
-        썸네일 업로드
+        사진 업로드
       </label>
       <input
         id='inputPostImageFile'
@@ -62,13 +62,15 @@ const StPostImageWrap = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 200px;
-  background-color: var(--grayBg-color);
+  width: 150px;
+  height: 150px;
+  background-color: var(--subBg-color);
   box-shadow: var(--shadow-style);
+  border: 1px solid var(--grayBg-color);
   text-align: center;
   overflow: hidden;
   object-fit: cover;
-  border-radius: 60%;
+  border-radius: 50%;
   label {
     border-radius: 4px;
     box-shadow: rgb(0 0 0 / 2%) 0px 0px 4px;

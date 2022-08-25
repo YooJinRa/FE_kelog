@@ -42,7 +42,7 @@ const userSlice = createSlice({
     [userLogin.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload.data.data;
-      // localStorage.setItem('user-info', payload.data.data.nickname);
+      //localStorage.setItem('user-info', payload.data.data.nickname);
       state.userToken = payload.headers.authorization;
     },
     [userLogin.rejected]: (state, { payload }) => {
