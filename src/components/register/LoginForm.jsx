@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../redux/modules/userActions';
-import axios from 'axios';
 
 const LoginForm = (props) => {
   // 로그인 성공시 props.onClose
@@ -18,7 +17,13 @@ const LoginForm = (props) => {
   // wathc 입력 비활성화
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const isAuth = localStorage.getItem('access-token');
+
+  const { loading, userInfo, userToken } = useSelector((state) => state.user);
+  console.log(userToken);
+  console.log(isAuth);
   const sendData = (event) => {
     event.preventDefault();
     props.changeState();
@@ -37,13 +42,17 @@ const LoginForm = (props) => {
     });
   };
 
-  const onSubmit = () => {
+  if (userToken) {
+    alert('로그인 성공');
+    window.location.reload();
+  }
+
+  const onSubmit = async () => {
     const body = {
       account: data.account,
       password: data.password,
     };
     dispatch(userLogin(body));
-    // useSelector 사용해서 succes가 true이면 메인 페이지로 이동
   };
 
   console.log(watch());

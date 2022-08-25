@@ -18,6 +18,8 @@ const initialState = {
   nickErrorMsg: null, // 중복체크 닉네임 메시지
   idErrorMsg: null, // 중복체크 아이디 메시지
   duplicateSuccess: false, // 중복 감지 체크 (감지이면 true 아니면 false)
+  loginSuccess: false,
+  profileImg: '',
 };
 
 const userSlice = createSlice({
@@ -27,6 +29,7 @@ const userSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem('access-token');
       localStorage.removeItem('user-info');
+      localStorage.removeItem('user-profile');
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;
@@ -41,8 +44,11 @@ const userSlice = createSlice({
     },
     [userLogin.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.userInfo = payload.data.data;
-      //localStorage.setItem('user-info', payload.data.data.nickname);
+      console.log(payload);
+      state.userInfo = payload.data;
+      state.profileImg = payload.data.profileImg;
+      localStorage.setItem('user-profile', payload.data.profileImg);
+      localStorage.setItem('user-info', payload.data);
       state.userToken = payload.headers.authorization;
     },
     [userLogin.rejected]: (state, { payload }) => {
