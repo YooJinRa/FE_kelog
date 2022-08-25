@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -17,6 +17,10 @@ import CommentContainer from '../components/detail/CommentContainer';
 import styled from 'styled-components';
 
 const DetailPage = () => {
+
+  const [isLogin, setIsLogIn] = useState();
+  const [isToggle, setIsToggle] = useState(false);
+
   const dispatch = useDispatch();
   const postDetail = useSelector((state) => state.postSlice.postDetail);
   const commentsList = useSelector(state => state.commentSlice.comment);
@@ -49,6 +53,10 @@ const DetailPage = () => {
       <GlobalHeader 
         userDetail={userDetail}
         userToken={userToken}
+        isLogin={isLogin}
+        setIsLogIn={setIsLogIn}
+        isToggle={isToggle}
+        setIsToggle={setIsToggle}
       />
       <GlobalLayout>
         <DetailContainer 

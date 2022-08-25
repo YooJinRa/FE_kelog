@@ -9,10 +9,9 @@ import ModalPortal from '../register/Portal';
 import Modal from '../register/Modal';
 
 
-const GlobalHeader = ({ userDetail, userToken }) => {
+const GlobalHeader = ({ userDetail, userToken, isLogin, setIsLogIn, isToggle, setIsToggle }) => {
   const [modalOn, setModalOn] = useState(false);
-  const [isLogin, setIsLogIn] = useState();
-  const [isToggle, setIsToggle] = useState(false);
+  
   
   useEffect(() => {
     userToken === null ? setIsLogIn(false) : setIsLogIn(true);
@@ -167,18 +166,17 @@ const StHeaderRightWrap = styled.div`
   .loginOn{
     display: flex;
     flex-direction: row;
-    background-color: ${(islogin) => islogin === false ? 'red' : 'blue'};
   }
 `;
 
 const StLoginOffMenu = styled.div`
-  display: ${(isLogin) => isLogin ? 'none' : 'block'};
+  display: ${({isLogin}) => isLogin = false ? 'none' : 'block'};
   overflow: hidden;
 `;
 const StLoginOnMenu = styled.div`
   /* display: flex; */
   flex-direction: row;
-  display: ${(isLogin) => isLogin ? 'flex' : 'none'};
+  display: ${({isLogin}) => isLogin = false ? 'flex' : 'none'};
 `;
 
 const StLightDarkBox = styled.div`

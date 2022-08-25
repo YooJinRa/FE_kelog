@@ -6,16 +6,12 @@ import { BsFillSunFill, BsSearch } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import ModalPortal from '../register/Portal';
 import Modal from '../register/Modal';
+import GlobalLayout from './GlobalLayout';
 
-const GlobalHeaders = () => {
-  const userDetail = useSelector((state) => state.postSlice.userDetail);
-  const userToken = localStorage.getItem('access-token')
-  ? localStorage.getItem('access-token')
-  : null;
+const GlobalHeaders = ({ userToken, isLogin, setIsLogIn, isToggle, setIsToggle }) => {
 
   const [modalOn, setModalOn] = useState(false);
-  const [isLogin, setIsLogIn] = useState();
-  const [isToggle, setIsToggle] = useState(false);
+  
   
   useEffect(() => {
     userToken === null ? setIsLogIn(false) : setIsLogIn(true);
@@ -34,6 +30,7 @@ const GlobalHeaders = () => {
   console.log("main header 토글 여부 확인 :::", isToggle);
 
   return (
+    <GlobalLayout>
     <StHeader>
       <div className='section'>
         <div className='title'>
@@ -112,7 +109,7 @@ const GlobalHeaders = () => {
               <StProfileBox>
                 <p onClick={onClickProfileMenu}>
                   {/* 로그인한 유저 정보 받아와야함. 주형님 머지하고 받아올 예정 */}
-                  <img src={userDetail.profileImg} alt="user profile image" />
+                  <img src='' alt="user profile image" />
                 </p>
                 <IoMdArrowDropdown />
                 <StDropDownBox isToggle={isToggle}>
@@ -125,6 +122,7 @@ const GlobalHeaders = () => {
 
       </div>
     </StHeader>
+    </GlobalLayout>
   );
 };
 
@@ -133,7 +131,7 @@ export default GlobalHeaders;
 const StHeader = styled.div`
   width: 100%;
   height: 4rem;
-  box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px;
+  /* box-shadow: rgb(0 0 0 / 8%) 0px 0px 8px; */
   .section {
     height: 100%;
     display: flex;
@@ -280,18 +278,17 @@ const StHeaderRightWrap = styled.div`
   .loginOn{
     display: flex;
     flex-direction: row;
-    background-color: ${(islogin) => islogin === false ? 'red' : 'blue'};
   }
 `;
 
 const StLoginOffMenu = styled.div`
-  display: ${(isLogin) => isLogin ? 'none' : 'block'};
+  display: ${({isLogin}) => isLogin = false ? 'none' : 'block'};
   overflow: hidden;
 `;
 const StLoginOnMenu = styled.div`
   /* display: flex; */
   flex-direction: row;
-  display: ${(isLogin) => isLogin ? 'flex' : 'none'};
+  display: ${({isLogin}) => isLogin = false ? 'flex' : 'none'};
 `;
 
 const StLightDarkBox = styled.div`
@@ -304,6 +301,7 @@ const StSearchBox = styled.div`
 `;
 
 const StProfileBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   p {
