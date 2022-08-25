@@ -24,12 +24,12 @@ const initialState = {
   refreshToken,
 };
 
+// 게시글 가져오기
+// payload -> 전체 글 데이터
+
 const URL = {
   BASE: process.env.REACT_APP_BASE_URL,
 };
-
-// 게시글 가져오기
-// payload -> 전체 글 데이터
 
 // 최신순 -> post
 export const getRecentData = createAsyncThunk(
@@ -38,7 +38,7 @@ export const getRecentData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=NEW`
+        `http://3.38.48.108/api/post?Category=NEW`
       );
       console.log(response);
       return response.data;
@@ -56,7 +56,7 @@ export const getTrendingData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=TODAY`
+        `http://3.38.48.108/api/post?Category=TODAY`
       );
       console.log(response);
       return response.data;
@@ -74,7 +74,7 @@ export const getTodayData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=TODAY`
+        `http://3.38.48.108/api/post?Category=TODAY`
       );
       return response.data;
     } catch (error) {
@@ -91,7 +91,7 @@ export const getWeekData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=WEEK`
+        `http://3.38.48.108/api/post?Category=WEEK`
       );
       return response.data;
     } catch (error) {
@@ -108,7 +108,7 @@ export const getMonthData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=MONTH`
+        `http://3.38.48.108/api/post?Category=MONTH`
       );
       return response.data;
     } catch (error) {
@@ -125,7 +125,7 @@ export const getYearData = createAsyncThunk(
     const { user } = getState();
     try {
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=YEAR`
+        `http://3.38.48.108/api/post?Category=YEAR`
       );
       return response.data;
     } catch (error) {
@@ -148,7 +148,7 @@ export const getMyData = createAsyncThunk(
         },
       };
       const response = await axios.get(
-        `${URL.BASE}api/post?Category=MYPAGE`,
+        `http://3.38.48.108/api/post?Category=MYPAGE`,
         config
       );
       console.log(response);

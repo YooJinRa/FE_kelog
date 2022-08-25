@@ -6,13 +6,11 @@ import MainRecentContainer from '../components/main/MainRecentContainer';
 
 const MainRecentPage = () => {
   const [data, setData] = useState();
-  const [isLogin, setIsLogIn] = useState();
   const [isToggle, setIsToggle] = useState(false);
 
   const userToken = localStorage.getItem('access-token')
-  ? localStorage.getItem('access-token')
-  : null;
-
+    ? localStorage.getItem('access-token')
+    : null;
 
   const onChangeData = (value) => {
     setData(value);
@@ -21,8 +19,6 @@ const MainRecentPage = () => {
   return (
     <>
       <GlobalHeaders
-        isLogin={isLogin}
-        setIsLogIn={setIsLogIn}
         isToggle={isToggle}
         setIsToggle={setIsToggle}
         userToken={userToken}
