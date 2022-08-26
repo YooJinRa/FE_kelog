@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DateItem from './DateItem';
 import { NavLink } from 'react-router-dom';
 
 const MainFilter = (props) => {
@@ -12,12 +11,10 @@ const MainFilter = (props) => {
   };
 
   const [value, setValue] = useState('오늘');
-  console.log(value); // 오늘 , 이번 주 , 이번 달 , 올해  , value값 기준으로 메인페이지 조건부 렌더링
-  // props.onChangeData(value);
-
   useEffect(() => {
     props.onChangeData(value);
   }, [props, props.onChangeData, value]);
+  // props.onChangeData(value);
 
   const onChangeValue = (text) => {
     setValue(text);
@@ -63,23 +60,6 @@ const MainFilter = (props) => {
             최신
           </NavLink>
           <div className='underline'></div>
-        </div>
-        <div className='today'>
-          {value}
-          <svg
-            stroke='currentColor'
-            fill='currentColor'
-            strokeWidth='0'
-            viewBox='0 0 24 24'
-            height='1em'
-            width='1em'
-            xmlns='http://www.w3.org/2000/svg'
-            onClick={onChangeState}
-          >
-            <path d='M7 10l5 5 5-5z'></path>
-          </svg>
-          {/* onChangeValue={onChangeValue} */}
-          {state === true ? <DateItem onChangeValue={onChangeValue} /> : null}
         </div>
       </div>
     </Stwrapper>

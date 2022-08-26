@@ -1,30 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import { FaHeart } from 'react-icons/fa';
+import React from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { __getPostDetail } from '../../redux/modules/postSlice';
+import { __getPostDetail, __deletePost } from '../../redux/modules/postSlice';
 import Heart from './Heart';
 
-const DetailContainer = ({ postDetail }) => {
+const DetailContainer = ({ postDetail, userDetail, heartCount, heartPush }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const postId = useParams().postId;
+  const userToken = localStorage.getItem('access-token');
+  const userAccount = localStorage.getItem('user-info');
+  
+  // :: 날짜 형식 변환
+  const dateArrayToString = String(postDetail.createdAt);
+  
+  const year = dateArrayToString.substring(0, 4);
+  const month = dateArrayToString.substring(5, 6);
+  const day = dateArrayToString.substring(7, 9);
+
+  const dateFormat = `${year}년 ${month}월 ${day}일`;
+
+  console.log(dateArrayToString, dateFormat);
+
+
+  // :: 게시글 삭제
+  const onClickDeletePost = () => {
+    dispatch(__deletePost(postId));
+    navigate(`/`);
+  }
 
   return (
     <StDetailContainer>
-      <Heart postDetail={postDetail} />
+      <Heart postId={postId} heartCount={heartCount} heartPush={heartPush} />
       <StPostDetailHeaderWrap>
         <h1>{postDetail.title}</h1>
-        <StPostInfoBox>
-          <p className='postInfo'>
-            <strong>작성자 닉네임</strong> 
-            <b>&#183;</b>
-            <span>{postDetail.createdAt}</span>
-          </p>
-          <button className='postHeartCount'>
-            <FaHeart size="12" color="var(--subGray-color)" />
-            <span>
-              {postDetail.heartCount === null ? 0 : postDetail.heartCount}
-            </span>
-          </button>
-        </StPostInfoBox>
-       
+
+          
+            <StPostInfoBox>
+            <p className='postInfo'>
+              <strong>{userDetail.username}</strong> 
+              <b>&#183;</b>
+              <span>{dateFormat}</span>
+            </p>
+            {userAccount === userDetail.account &&
+              <div className='postButton'>
+                <span onClick={()=> {alert("이 서비스는 현재 준비중 입니다!")}}>통계</span>
+                <Link 
+                  to={`/update/${postId}`} 
+                  state={{
+                    postId: postId,
+                    postDetail: postDetail
+                  }}
+                >
+                  <span>수정</span>
+                </Link>
+                <span onClick={onClickDeletePost}>삭제</span>
+              </div>
+            }
+          </StPostInfoBox> 
+          
+          
+
+
         <StPostDetailTagBox>
           {postDetail.tags && postDetail.tags.map((tag, index) => (
             <li key={tag+index}>{tag}</li>
@@ -79,6 +117,18 @@ const StPostInfoBox = styled.div`
   
   .postInfo {
     strong {
+      font-weight: 700;
+    }
+    
+  }
+  .postButton {
+    span {
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    span:hover {
+      color: var(--title-color);
       font-weight: 700;
     }
   }

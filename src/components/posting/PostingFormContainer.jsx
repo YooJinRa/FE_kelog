@@ -19,13 +19,10 @@ const PostingFormContainer = () => {
     content: "",
   });
   const [ tagList, setTagList ] = useState([]);
-  console.log("___PostingForm_imageState ====> ", compressedImageFile);
-  console.log("___PostingForm_contentState ====> ", postInputs.title, postInputs.content);
-  console.log("___PostingForm_tagState ====> ", tagList);
 
   const onClickAddPost = async(event) => {
     event.preventDefault();
-    console.log("게시글을 업로드 해봅시다!");
+
     if(
       postInputs.title === '' ||
       postInputs.content === '' ||
@@ -42,6 +39,9 @@ const PostingFormContainer = () => {
       // :: 서버 주소
       const URL = {
         BASE: process.env.REACT_APP_BASE_URL,
+      };
+      const USER = {
+        AUTHORIZATION: localStorage.getItem('access-token'),
       };
 
       // :: image file formData 형식 변환
@@ -65,10 +65,13 @@ const PostingFormContainer = () => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTA2NTU2M30.WD1dQUYX57gRN7c3aF6WTxZtcaDLoQ4NAjyKDjPQBqE"
+              Authorization: `${USER.AUTHORIZATION}`
             },
           }
         );
+        
+        navigate(`/post/${postContentsResponse.data.data.id}`, {replace: true});
+
       } catch(error) {
         console.log(error);
       }
@@ -80,14 +83,9 @@ const PostingFormContainer = () => {
         title: '',
         content: '',
       });
-
-      goingBack();
     }
   }
-
  
-
-
   return (
   <StPostingFormContainer>
     <div>

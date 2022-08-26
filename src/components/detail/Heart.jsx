@@ -1,56 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { __updatePostHeart } from '../../redux/modules/postSlice';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { FaHeart } from 'react-icons/fa';
 import { BsShareFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
-const Heart = ({postDetail}) => {
-  const [ clickHeartOn, setClickHeartOn ] = useState(false); //postDetail.heartOn
+const Heart = ({ postId, heartCount, heartPush }) => {
+  const dispatch = useDispatch();
+  const onClickHeart = () => {
+    dispatch(__updatePostHeart(postId));
+  }
 
-
-  const location = useLocation();
-  useEffect(() => {
-    console.log("=======>location!!!!", location);
-  }, [location]);
+  // :: 링크 복사 기능
   const URL = {
-    BASE: process.env.REACT_APP_BASE_URL,
     CLIENT: process.env.REACT_APP_CLIENT_URL,
   };
-  // ::: 링크 복사기능
+  const location = useLocation();
   const handleCopyClicpBoard = async (url) => {
     try {
+      console.log(location);
       await navigator.clipboard.writeText(url);
       alert("링크 복사 성공");
     } catch (error) {
       alert("링크 복사 실패");
     }
   }
-  const onClickHeart = async() => {
-    // 게시글 불러올때 해당유저가 해당게시글에 하트를 눌렀는지 안눌렀는지 확인
-    
-    const heartResponse = await axios.post(`${URL.BASE}api/${postDetail.id}/postheart`, {}, {
-      headers: {
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2NvdW50MyIsImV4cCI6MTY2MTE3NzE4NX0.Z8FvKFZ1HoeNG2CUixd4nkLd4Dml4JniUYaOWr-ZM-A"
-      }
-    });
-    console.log(heartResponse.data);
-    setClickHeartOn(!clickHeartOn);
-    console.log("좋아요 눌렀니 안눌렀니~!", clickHeartOn);
-
-  }
 
   return (
     <StPostLeftMenuBox>
       <StHeartIcon 
         className='round'
-        clickHeartOn={clickHeartOn}
+        clickHeartOn={Boolean(heartPush)}
         onClick={onClickHeart}
       >
         <FaHeart size="24" />
       </StHeartIcon>
       <div className='heartCount'>
-        {clickHeartOn === true ? Number(postDetail.heartCount)+1: Number(postDetail.heartCount)-1}
+        {`${heartCount}`}
       </div>
       <div 
         className='sharedLinkIcon round'
@@ -111,11 +98,11 @@ const StPostLeftMenuBox = styled.div`
 
 const StHeartIcon = styled.div`
   background-color: ${
-    ({clickHeartOn}) => clickHeartOn===true ? 'var(--primary-color)':'var(--subBg-color)'
+    ({clickHeartOn}) => clickHeartOn===false ? 'var(--subBg-color)' : 'var(--primary-color)'
   };
   svg {
     color: ${
-      ({clickHeartOn}) => clickHeartOn===true ? 'var(--subBg-color)':'var(--subText-color)'
+      ({clickHeartOn}) => clickHeartOn===false ? 'var(--subText-color)' : 'var(--subBg-color)'
     };
   }
 `;
